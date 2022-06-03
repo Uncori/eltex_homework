@@ -13,5 +13,15 @@ int main(void) {
     printf("b = %p\n", &b);
 
     printf("ptr = %p\n", ptr1);
-    printf("*ptr = %c", *ptr1);
-}
+    printf("*ptr = %c\n", *ptr1);
+
+    printf("---------------\n");
+
+    int c = 1234567890;
+    printf("c = %x\n", c);
+    char *ptr = (char *)&c;
+
+    for (size_t i = 0; i < 4; i++) {
+        printf("ptr = %x\n", *ptr);
+        ++ptr;
+     }
