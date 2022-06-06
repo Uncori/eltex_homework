@@ -27,16 +27,16 @@ double action_processing(double *a, double *b, char *c) {
     double res = 0.0;
     switch (*c) {
         case '+':
-            res = sum_numbers(&a, &b);
+            res = sum_numbers(a, b);
             break;
         case '-':
-            res = sub_numbers(&a, &b);
+            res = sub_numbers(a, b);
             break;
         case '*':
-            res = mult_numbers(&a, &b);
+            res = mult_numbers(a, b);
             break;
         case '/':
-            res = div_numbers(&a, &b);
+            res = div_numbers(a, b);
             break;
         default:
             printf("syntax error\n");
@@ -45,7 +45,7 @@ double action_processing(double *a, double *b, char *c) {
     return res;
 }
 
-double sum_numbers(double **a, double **b) { return **a + **b; }
-double sub_numbers(double **a, double **b) { return **a - **b; }
-double mult_numbers(double **a, double **b) { return **a * **b; }
-double div_numbers(double **a, double **b) { return **a / **b; }
+double sum_numbers(double *a, double *b) { return *a + *b; }
+double sub_numbers(double *a, double *b) { return *a - *b; }
+double mult_numbers(double *a, double *b) { return *a * *b; }
+double div_numbers(double *a, double *b) { return *a / *b; }
