@@ -1,7 +1,7 @@
 #include "simple_calc.h"
 
 void display_menu() {
-    double a = 0.0, b = 0.0, res = 0.0;
+    double a = 0.0, b = 0.0;
     char action = ' ';
 
     while (action != 'q') {
@@ -17,6 +17,7 @@ void display_menu() {
         action = getchar();
         setbuf(stdin, NULL);
         if (action != 'q') {
+            double res = 0.0;
             printf("result = %lf\n", res = action_processing(&a, &b, &action));
         }
     }

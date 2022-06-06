@@ -24,4 +24,5 @@ int main(void) {
     for (size_t i = 0; i < 4; i++) {
         printf("ptr = %x\n", *ptr);
         ++ptr;
-     }
+    }
+}
