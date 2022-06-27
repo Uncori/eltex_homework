@@ -107,7 +107,7 @@ int main() {
                     strcat(buf, "/");
                     strcat(buf, leftNamelist[highlightLeft - 1]->d_name);
                     chdir(buf);
-                    mvwprintw(left_win, 10, 10, buf);
+                    // mvwprintw(left_win, 10, 10, buf);
 
                     while (countLeftDir--) {
                         free(leftNamelist[countLeftDir]);
@@ -125,7 +125,7 @@ int main() {
                     strcat(buf, "/");
                     strcat(buf, rightNamelist[highlightRight - 1]->d_name);
                     chdir(buf);
-                    mvwprintw(right_win, 10, 10, buf);
+                    // mvwprintw(right_win, 10, 10, buf);
                     while (countRightDir--) {
                         free(rightNamelist[countRightDir]);
                     }
@@ -169,6 +169,7 @@ void printLeftWindow(WINDOW *left_win, struct dirent **data, int highlight, int 
 
     box(left_win, 0, 0);
     struct stat st;
+    // mvwprintw(left_win, 10, 10, "%d", n);
 
     wbkgd(left_win, COLOR_PAIR(1));
 
@@ -191,12 +192,13 @@ void printLeftWindow(WINDOW *left_win, struct dirent **data, int highlight, int 
         ++y;
     }
 }
+
 void printRightWindow(WINDOW *right_win, struct dirent **data, int highlight, int n) {
     int x = 1, y = 1;
 
     box(right_win, 0, 0);
     struct stat st;
-
+    // mvwprintw(right_win, 10, 10, "%d", n);
     wbkgd(right_win, COLOR_PAIR(1));
 
     for (int i = n - 1; i >= 0; --i) {
