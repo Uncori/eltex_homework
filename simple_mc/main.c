@@ -28,8 +28,6 @@ int main() {
     highlightLeft = countLeftDir;
     highlightRight = countRightDir;
 
-    free(curentDir);
-
     keypad(left_win, TRUE);
     keypad(right_win, TRUE);
 
@@ -85,37 +83,45 @@ int main() {
             case 10:
                 if (flagWindow == 0) {
                     wclear(left_win);
-                    char *rightBuff = getcwd(NULL, 0);
-                    strcat(rightBuff, "/");
-                    strcat(rightBuff, leftNamelist[highlightLeft - 1]->d_name);
-                    chdir(rightBuff);
 
-                    while (countLeftDir--) {
-                        free(leftNamelist[countLeftDir]);
+                    char *leftBuff = getcwd(NULL, 0);
+                    strcat(leftBuff, "/");
+                    strcat(leftBuff, leftNamelist[highlightLeft - 1]->d_name);
+
+                    if (chdir(leftBuff) == 0) {
+                        while (countLeftDir--) {
+                            free(leftNamelist[countLeftDir]);
+                        }
+                        free(leftNamelist);
+
+                        countLeftDir = scandir(leftBuff, &leftNamelist, NULL, alphasort);
+                        highlightLeft = countLeftDir;
+
+                        free(leftBuff);
+                    } else {
+                        free(leftBuff);
                     }
-                    free(leftNamelist);
-
-                    countLeftDir = scandir(rightBuff, &leftNamelist, NULL, alphasort);
-                    highlightLeft = countLeftDir;
-
-                    free(rightBuff);
                     break;
                 } else {
                     wclear(right_win);
-                    char *buf = getcwd(NULL, 0);
-                    strcat(buf, "/");
-                    strcat(buf, rightNamelist[highlightRight - 1]->d_name);
-                    chdir(buf);
 
-                    while (countRightDir--) {
-                        free(rightNamelist[countRightDir]);
+                    char *rightBuff = getcwd(NULL, 0);
+                    strcat(rightBuff, "/");
+                    strcat(rightBuff, rightNamelist[highlightRight - 1]->d_name);
+
+                    if (chdir(rightBuff) == 0) {
+                        while (countRightDir--) {
+                            free(rightNamelist[countRightDir]);
+                        }
+                        free(rightNamelist);
+
+                        countRightDir = scandir(rightBuff, &rightNamelist, NULL, alphasort);
+                        highlightRight = countRightDir;
+
+                        free(rightBuff);
+                    } else {
+                        free(rightBuff);
                     }
-                    free(rightNamelist);
-
-                    countRightDir = scandir(buf, &rightNamelist, NULL, alphasort);
-                    highlightRight = countRightDir;
-
-                    free(buf);
                     break;
                 }
             default:
@@ -138,6 +144,8 @@ int main() {
         free(rightNamelist[countRightDir]);
     }
     free(rightNamelist);
+
+    free(curentDir);
 
     delwin(left_win);
     delwin(right_win);
