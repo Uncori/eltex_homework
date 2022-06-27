@@ -1,5 +1,5 @@
-#ifndef SRC_FUNCTIONS_H
-#define SRC_FUNCTIONS_H
+#ifndef FUNCTIONS_H
+#define FUNCTIONS_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -28,4 +28,4 @@ void last_find(directory *data);
 void phone_find(directory *data);
 void input_directory(directory *data);
 
-#endif  // SRC_FUNCTIONS_H
+#endif  // FUNCTIONS_H
