@@ -27,5 +27,7 @@ void first_find(directory *data);
 void last_find(directory *data);
 void phone_find(directory *data);
 void input_directory(directory *data);
+void save_directory(directory *data);
+void read_directory(directory *data);
 
 #endif  // FUNCTIONS_H

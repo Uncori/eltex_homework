@@ -1,5 +1,40 @@
 #include "functions.h"
 
+void save_directory(directory *data) {
+    FILE *settings_file;
+    settings_file = fopen("directory.txt", "w");
+    for (unsigned int i = 0; i < data->count_subscriber; ++i) {
+        fprintf(settings_file, data->subscriber[i].first_name);
+        fprintf(settings_file, data->subscriber[i].last_name);
+        fprintf(settings_file, data->subscriber[i].phone_number);
+        fprintf(settings_file, data->subscriber[i].second_name);
+    }
+    fclose(settings_file);
+}
+
+void read_directory(directory *data) {
+    size_t len = 0, count = 0;
+    FILE *settings_file;
+
+    settings_file = fopen("directory.txt", "r");
+
+    if (settings_file != NULL) {
+        while (!feof(settings_file)) {
+            fscanf(settings_file, "%*[^\n]%*c");
+            count++;
+        }
+        fseek(settings_file, 0, SEEK_SET);
+        data->count_subscriber = ((count - 1) / 4);
+        for (unsigned int i = 0; i < data->count_subscriber; ++i) {
+            getline(&data->subscriber[i].first_name, &len, settings_file);
+            getline(&data->subscriber[i].last_name, &len, settings_file);
+            getline(&data->subscriber[i].phone_number, &len, settings_file);
+            getline(&data->subscriber[i].second_name, &len, settings_file);
+        }
+    }
+    fclose(settings_file);
+}
+
 void memory_allocation_directory(directory *data) {
     data->subscriber = (subscriber *)calloc(255, sizeof(subscriber));
 }
@@ -129,6 +164,7 @@ void input_directory(directory *data) {
     memory_allocation_directory(data);
     int menu_key = -1;
     system("clear");
+    read_directory(data);
     while (menu_key != 0) {
         printf("-----------------Directory----------------\n");
         printf("In the directory %u subscribers\n", data->count_subscriber);
@@ -172,5 +208,6 @@ void input_directory(directory *data) {
             printf("syntax error!\n");
         }
     }
+    save_directory(data);
     remove_directory(data);
 }

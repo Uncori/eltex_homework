@@ -7,4 +7,4 @@ directory:
 	${CC} ${CFLAGS} functions.c main.c -o directory ; ./directory
 
 clean:
-	rm -rf directory
+	rm -rf directory *.txt

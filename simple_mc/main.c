@@ -104,7 +104,6 @@ int main() {
                     break;
                 } else {
                     wclear(right_win);
-
                     char *rightBuff = getcwd(NULL, 0);
                     strcat(rightBuff, "/");
                     strcat(rightBuff, rightNamelist[highlightRight - 1]->d_name);
