@@ -1,5 +1,5 @@
-#ifndef _FUNCTION_H_
-#define _FUNCTION_H_
+#ifndef _FUNCTIONS_H_
+#define _FUNCTIONS_H_
 
 #include <fcntl.h>
 #include <stdio.h>
@@ -12,4 +12,4 @@
 void write_print(int fd, char *str);
 void revers_output(int fd);
 
-#endif  // _FUNCTION_H_
+#endif  // _FUNCTIONS_H_

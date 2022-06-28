@@ -1,5 +1,5 @@
-#ifndef FUNCTIONS_H
-#define FUNCTIONS_H
+#ifndef _FUNCTIONS_H
+#define _FUNCTIONS_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -30,4 +30,4 @@ void input_directory(directory *data);
 void save_directory(directory *data);
 void read_directory(directory *data);
 
-#endif  // FUNCTIONS_H
+#endif  // _FUNCTIONS_H

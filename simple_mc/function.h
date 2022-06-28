@@ -1,3 +1,6 @@
+#ifndef _FUNCTION_H
+#define _FUNCTION_H
+
 #include <dirent.h>
 #include <fcntl.h>
 #include <ncurses.h>
@@ -15,3 +18,5 @@
 char *printTime(struct stat *st);
 void printLeftWindow(WINDOW *left_win, struct dirent **data, int highlight, int n);
 void printRightWindow(WINDOW *right_win, struct dirent **data, int highlight, int n);
+
+#endif  // _FUNCTION_H

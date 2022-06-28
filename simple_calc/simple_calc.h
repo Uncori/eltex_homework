@@ -1,3 +1,6 @@
+#ifndef _SIMPLE_CALC_H_
+#define _SIMPLE_CALC_H_
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -7,3 +10,5 @@ double sum_numbers(double *a, double *b);
 double sub_numbers(double *a, double *b);
 double mult_numbers(double *a, double *b);
 double div_numbers(double *a, double *b);
+
+#endif  // _SIMPLE_CALC_H_
