@@ -5,7 +5,6 @@ all: sbash
 
 sbash:
 	@${CC} ${CFLAGS} bash.c -o sbash
-	@./sbash
 
 clean:
 	@rm -rf sbash
