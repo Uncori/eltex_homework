@@ -66,6 +66,7 @@ double parsing(char *argv) {
                 }
                 s21_check_func_cmp(&stack_oper, array_func);
                 i = b - 1;
+                free(array_func);
             } else if ((s21_check_oper(check_str[i]) >= -1 && s21_check_oper(check_str[i]) <= 3) &&
                        error) {
                 if (s21_check_oper(check_str[i]) != -2 && s21_check_oper(check_str[i - 1]) != -2) {
@@ -140,6 +141,8 @@ double parsing(char *argv) {
             free(array_number);
         }
         resoult = s21_pop_double(&output_stack);
+        free(output_str);
+    } else {
         free(output_str);
     }
     free(check_str);

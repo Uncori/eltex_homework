@@ -8,9 +8,11 @@ int main() {
         printf("Enter an expression(q - exit):\n");
         fgets(str, 255, stdin);
         ex = str[0];
+
         double res = parsing(str);
         printf("res = %lf\n", res);
         printf("---------------------------\n");
+
         free(str);
     }
 

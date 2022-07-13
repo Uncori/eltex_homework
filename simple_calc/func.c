@@ -69,33 +69,25 @@ void s21_check_func(st_c **stack_oper, char *output_str) {
 void s21_check_func_cmp(st_c **stack_oper, char *output_str) {
     if (strcmp(output_str, "cos") == 0) {
         *stack_oper = s21_push_char(*stack_oper, 'c');
-        free(output_str);
     } else if (strcmp(output_str, "sin") == 0) {
         *stack_oper = s21_push_char(*stack_oper, 's');
-        free(output_str);
     } else if (strcmp(output_str, "tan") == 0) {
         *stack_oper = s21_push_char(*stack_oper, 't');
-        free(output_str);
     } else if (strcmp(output_str, "acos") == 0) {
         *stack_oper = s21_push_char(*stack_oper, 'C');
-        free(output_str);
     } else if (strcmp(output_str, "asin") == 0) {
         *stack_oper = s21_push_char(*stack_oper, 'S');
-        free(output_str);
     } else if (strcmp(output_str, "atan") == 0) {
         *stack_oper = s21_push_char(*stack_oper, 'T');
-        free(output_str);
     } else if (strcmp(output_str, "sqrt") == 0) {
         *stack_oper = s21_push_char(*stack_oper, 'q');
-        free(output_str);
     } else if (strcmp(output_str, "ln") == 0) {
         *stack_oper = s21_push_char(*stack_oper, 'l');
-        free(output_str);
     } else if (strcmp(output_str, "log") == 0) {
         *stack_oper = s21_push_char(*stack_oper, 'L');
-        free(output_str);
     }
 }
+
 int s21_check_unar(char previous, char next) {
     int resoult = FAILURE;
     if (s21_check_lexeme(next) == SUCCESS) {

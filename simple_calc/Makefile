@@ -12,6 +12,6 @@ simple_calc:
 
 
 clean:
-	rm calc *.o *.a
+	@rm calc *.o *.a
 
 rebuild: clean simple_calc
