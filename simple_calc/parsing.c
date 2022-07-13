@@ -32,13 +32,13 @@ double parsing(char *argv) {
                     }
                 }
                 if (unar_type == SUCCESS) {
-                    strncat(output_str, "0", 1);
-                    strncat(output_str, " ", 1);
+                    strncat(output_str, "0", 2);
+                    strncat(output_str, " ", 2);
                     unar_type = FAILURE;
                 }
                 if (error) {
                     strncat(output_str, array_number, strlen(array_number));
-                    strncat(output_str, " ", 1);
+                    strncat(output_str, " ", 2);
                     free(array_number);
                     count_dot = 0;
                     boba = 0;
@@ -49,11 +49,11 @@ double parsing(char *argv) {
                 count_bracket_open++;
             } else if (s21_check_oper(check_str[i]) == 3 && error) {
                 if (s21_check_oper(check_str[i - 1]) == 0 && check_str[i - 2] == '(') {
-                    strncat(output_str, "0", 1);
-                    strncat(output_str, " ", 1);
+                    strncat(output_str, "0", 2);
+                    strncat(output_str, " ", 2);
                 } else if (s21_check_oper(check_str[0]) == 0) {
-                    strncat(output_str, "0", 1);
-                    strncat(output_str, " ", 1);
+                    strncat(output_str, "0", 2);
+                    strncat(output_str, " ", 2);
                 }
                 char *array_func = (char *)calloc(MAX_LINE, sizeof(char));
                 int biba = 0, b = 0;

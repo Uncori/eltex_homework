@@ -24,44 +24,44 @@ int s21_check_oper(char simbol) {
 
 void s21_check_func(st_c **stack_oper, char *output_str) {
     if ((*stack_oper)->simbol == 'c') {
-        strncat(output_str, "cos", 3);
-        strncat(output_str, " ", 1);
+        strncat(output_str, "cos", 4);
+        strncat(output_str, " ", 2);
         s21_pop_char(stack_oper);
     } else if ((*stack_oper)->simbol == 's') {
-        strncat(output_str, "sin", 3);
-        strncat(output_str, " ", 1);
+        strncat(output_str, "sin", 4);
+        strncat(output_str, " ", 2);
         s21_pop_char(stack_oper);
     } else if ((*stack_oper)->simbol == 't') {
-        strncat(output_str, "tan", 3);
-        strncat(output_str, " ", 1);
+        strncat(output_str, "tan", 4);
+        strncat(output_str, " ", 2);
         s21_pop_char(stack_oper);
     } else if ((*stack_oper)->simbol == 'C') {
-        strncat(output_str, "acos", 4);
-        strncat(output_str, " ", 1);
+        strncat(output_str, "acos", 5);
+        strncat(output_str, " ", 2);
         s21_pop_char(stack_oper);
     } else if ((*stack_oper)->simbol == 'S') {
-        strncat(output_str, "asin", 4);
-        strncat(output_str, " ", 1);
+        strncat(output_str, "asin", 5);
+        strncat(output_str, " ", 2);
         s21_pop_char(stack_oper);
     } else if ((*stack_oper)->simbol == 'T') {
-        strncat(output_str, "atan", 4);
-        strncat(output_str, " ", 1);
+        strncat(output_str, "atan", 5);
+        strncat(output_str, " ", 2);
         s21_pop_char(stack_oper);
     } else if ((*stack_oper)->simbol == 'q') {
-        strncat(output_str, "sqrt", 4);
-        strncat(output_str, " ", 1);
+        strncat(output_str, "sqrt", 5);
+        strncat(output_str, " ", 2);
         s21_pop_char(stack_oper);
     } else if ((*stack_oper)->simbol == 'l') {
-        strncat(output_str, "ln", 2);
-        strncat(output_str, " ", 1);
+        strncat(output_str, "ln", 3);
+        strncat(output_str, " ", 2);
         s21_pop_char(stack_oper);
     } else if ((*stack_oper)->simbol == 'L') {
-        strncat(output_str, "log", 3);
-        strncat(output_str, " ", 1);
+        strncat(output_str, "log", 4);
+        strncat(output_str, " ", 2);
         s21_pop_char(stack_oper);
     } else {
         strncat(output_str, &(*stack_oper)->simbol, 1);
-        strncat(output_str, " ", 1);
+        strncat(output_str, " ", 2);
         s21_pop_char(stack_oper);
     }
 }

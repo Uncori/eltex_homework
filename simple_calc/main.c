@@ -6,6 +6,7 @@ int main() {
     while (ex != 'q') {
         char *str = (char *)calloc(MAX_LINE, sizeof(char));
         printf("Enter an expression(q - exit):\n");
+
         fgets(str, 255, stdin);
         ex = str[0];
 
