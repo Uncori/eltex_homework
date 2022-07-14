@@ -16,11 +16,11 @@ double parsing(char *argv) {
         int count_dot = 0;
         int unar_type = FAILURE;
         for (size_t i = 0; i < strlen(check_str) && error; ++i) {
-            if ((s21_check_lexeme(check_str[i]) == SUCCESS) && error) {
+            if ((check_lexeme(check_str[i]) == SUCCESS) && error) {
                 int a = 0;
                 int boba = 0;
                 char *array_number = (char *)calloc(MAX_LINE, sizeof(char));
-                for (a = i; s21_check_lexeme(check_str[a]) != FAILURE && error; a++) {
+                for (a = i; check_lexeme(check_str[a]) != FAILURE && error; a++) {
                     if (count_dot > 1) {
                         error = FAILURE;
                     } else {
@@ -45,13 +45,13 @@ double parsing(char *argv) {
                     i = a - 1;
                 }
             } else if (check_str[i] == '(' && error) {
-                stack_oper = s21_push_char(stack_oper, check_str[i]);
+                stack_oper = push_char(stack_oper, check_str[i]);
                 count_bracket_open++;
-            } else if (s21_check_oper(check_str[i]) == 3 && error) {
-                if (s21_check_oper(check_str[i - 1]) == 0 && check_str[i - 2] == '(') {
+            } else if (check_oper(check_str[i]) == 3 && error) {
+                if (check_oper(check_str[i - 1]) == 0 && check_str[i - 2] == '(') {
                     strncat(output_str, "0", 2);
                     strncat(output_str, " ", 2);
-                } else if (s21_check_oper(check_str[0]) == 0) {
+                } else if (check_oper(check_str[0]) == 0) {
                     strncat(output_str, "0", 2);
                     strncat(output_str, " ", 2);
                 }
@@ -64,35 +64,34 @@ double parsing(char *argv) {
                     array_func[biba] = check_str[b];
                     ++biba;
                 }
-                s21_check_func_cmp(&stack_oper, array_func);
+                check_func_cmp(&stack_oper, array_func);
                 i = b - 1;
                 free(array_func);
-            } else if ((s21_check_oper(check_str[i]) >= -1 && s21_check_oper(check_str[i]) <= 3) &&
-                       error) {
-                if (s21_check_oper(check_str[i]) != -2 && s21_check_oper(check_str[i - 1]) != -2) {
+            } else if ((check_oper(check_str[i]) >= -1 && check_oper(check_str[i]) <= 3) && error) {
+                if (check_oper(check_str[i]) != -2 && check_oper(check_str[i - 1]) != -2) {
                     error = FAILURE;
                 } else {
-                    if (s21_check_oper(check_str[i]) == 0) {
-                        if (s21_check_unar(check_str[i - 1], check_str[i + 1]) == SUCCESS) {
+                    if (check_oper(check_str[i]) == 0) {
+                        if (check_unar(check_str[i - 1], check_str[i + 1]) == SUCCESS) {
                             unar_type = SUCCESS;
                         }
                     }
                     int nan = SUCCESS;
                     while (stack_oper != NULL && nan) {
-                        if (s21_check_oper(stack_oper->simbol) >= s21_check_oper(check_str[i])) {
-                            s21_check_func(&stack_oper, output_str);
+                        if (check_oper(stack_oper->simbol) >= check_oper(check_str[i])) {
+                            check_func(&stack_oper, output_str);
                         } else {
                             nan = FAILURE;
                         }
                     }
-                    stack_oper = s21_push_char(stack_oper, check_str[i]);
+                    stack_oper = push_char(stack_oper, check_str[i]);
                 }
 
             } else if (check_str[i] == ')' && error && count_bracket_open > 0) {
                 while (stack_oper->simbol != '(') {
-                    s21_check_func(&stack_oper, output_str);
+                    check_func(&stack_oper, output_str);
                 }
-                s21_pop_char(&stack_oper);
+                pop_char(&stack_oper);
                 count_bracket_open--;
             } else {
                 error = FAILURE;
@@ -103,12 +102,12 @@ double parsing(char *argv) {
             if (stack_oper->simbol == '(') {
                 error = FAILURE;
             } else {
-                s21_check_func(&stack_oper, output_str);
+                check_func(&stack_oper, output_str);
             }
         }
 
         while (stack_oper != NULL && error) {
-            s21_pop_char(&stack_oper);
+            pop_char(&stack_oper);
         }
     }
     if (error) {
@@ -128,19 +127,19 @@ double parsing(char *argv) {
             char simbol;
             sscanf(array_number, "%c", &simbol);
             if (sscanf(array_number, "%lf", &number) != 0) {
-                output_stack = s21_push_double(output_stack, number);
+                output_stack = push_double(output_stack, number);
                 count_number++;
             }
-            s21_arithmetic_operations_func(&output_stack, array_number);
-            if (s21_check_simbol(simbol)) {
+            arithmetic_operations_func(&output_stack, array_number);
+            if (check_simbol(simbol)) {
                 if (count_number >= 2) {
-                    s21_arithmetic_operations(&output_stack, simbol);
+                    arithmetic_operations(&output_stack, simbol);
                     count_number -= 1;
                 }
             }
             free(array_number);
         }
-        resoult = s21_pop_double(&output_stack);
+        resoult = pop_double(&output_stack);
         free(output_str);
     } else {
         free(output_str);

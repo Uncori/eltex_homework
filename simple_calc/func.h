@@ -1,5 +1,5 @@
-#ifndef SRC_S21_CALC_H_
-#define SRC_S21_CALC_H_
+#ifndef _FUNC_H_
+#define _FUNC_H_
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -28,13 +28,13 @@ typedef enum {
     FUNC_CHAR = 3
 } char_type;
 
-// help func
-int s21_check_lexeme(char number);
-int s21_check_oper(char simbol);
-void s21_check_func(st_c **stack_oper, char *output_str);
-void s21_check_func_cmp(st_c **stack_oper, char *output_str);
-int s21_check_unar(char previous, char next);
-int s21_check_simbol(char simbol);
-void s21_arithmetic_operations(st_d **stack_oper, char simbol);
-void s21_arithmetic_operations_func(st_d **stack_oper, char *func);
-#endif  // SRC_S21_CALC_H_
+int check_lexeme(char number);
+int check_oper(char simbol);
+void check_func(st_c **stack_oper, char *output_str);
+void check_func_cmp(st_c **stack_oper, char *output_str);
+int check_unar(char previous, char next);
+int check_simbol(char simbol);
+void arithmetic_operations(st_d **stack_oper, char simbol);
+void arithmetic_operations_func(st_d **stack_oper, char *func);
+
+#endif  // _FUNC_H_
