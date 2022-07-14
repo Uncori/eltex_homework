@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
 
         pid = fork();
         if (pid) {
-            waitpid(-1, &status, 0);
+            if ((pid = waitpid(pid, &status, WNOHANG)) == -1) perror("wait() error");
         } else if (pid == 0) {
             execvp(argv[1], arrayList);
         } else {
