@@ -16,7 +16,7 @@ void read_directory(directory *data) {
     size_t len = 0, count = 0;
     FILE *settings_file;
 
-    settings_file = fopen("directory.txt", "r");
+    settings_file = fopen("directory.txt", "a+");
 
     if (settings_file != NULL) {
         while (!feof(settings_file)) {
