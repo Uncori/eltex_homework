@@ -168,54 +168,25 @@ void mcRun() {
                 flagWindow = 0;
                 break;
             case 10:
-                // if (flagWindow == 0) {
                 wclear(left_win);
 
                 char *leftBuff = getcwd(NULL, 0);
-                strcat(leftBuff, "/");
-                strcat(leftBuff, leftNamelist[highlightLeft - 1]->d_name);
+                strncat(leftBuff, "/", 2);
+                strncat(leftBuff, leftNamelist[highlightLeft - 1]->d_name,
+                        strlen(leftNamelist[highlightLeft - 1]->d_name));
+
                 chdir(leftBuff);
                 while (countLeftDir--) {
                     free(leftNamelist[countLeftDir]);
                 }
+
                 free(leftNamelist);
                 countLeftDir = scandir(leftBuff, &leftNamelist, NULL, alphasort);
                 highlightLeft = countLeftDir;
-                // if (chdir(leftBuff) == 0) {
-                //     while (countLeftDir--) {
-                //         free(leftNamelist[countLeftDir]);
-                //     }
-                //     free(leftNamelist);
 
-                //
-
-                //     free(leftBuff);
-                // } else {
                 free(leftBuff);
-                // }
+
                 break;
-                // }
-                //  else {
-                //     wclear(right_win);
-                //     char *rightBuff = getcwd(NULL, 0);
-                //     strcat(rightBuff, "/");
-                //     strcat(rightBuff, rightNamelist[highlightRight - 1]->d_name);
-
-                //     if (chdir(rightBuff) == 0) {
-                //         while (countRightDir--) {
-                //             free(rightNamelist[countRightDir]);
-                //         }
-                //         free(rightNamelist);
-
-                //         countRightDir = scandir(rightBuff, &rightNamelist, NULL, alphasort);
-                //         highlightRight = countRightDir;
-
-                //         free(rightBuff);
-                //     } else {
-                //         free(rightBuff);
-                //     }
-                //     break;
-                // }
             default:
                 refresh();
                 break;
