@@ -170,7 +170,7 @@ void mcRun() {
             case 10:
                 wclear(left_win);
 
-                char *leftBuff = getcwd(NULL, 0);
+                // char *leftBuff = getcwd(NULL, 0);
                 // strncat(leftBuff, "/", 2);
                 // strncat(leftBuff, leftNamelist[highlightLeft - 1]->d_name,
                 //         strlen(leftNamelist[highlightLeft - 1]->d_name));
