@@ -1,80 +1,80 @@
 #include "function.h"
 
-void printLeftWindow(WINDOW *left_win, struct dirent **data, int highlight, int n) {
+void printLeftWindow(Data *base) {
     int x = 2, y = 2;
-    box(left_win, 0, 0);
+    box(base->left_win, 0, 0);
     struct stat st;
 
-    mvwprintw(left_win, 1, 1, "Dir");
-    mvwprintw(left_win, 1, (COLS / 2) - 24, "Size");
-    mvwprintw(left_win, 1, (COLS / 2) - 14, "Modify time");
+    mvwprintw(base->left_win, 1, 1, "Dir");
+    mvwprintw(base->left_win, 1, (COLS / 2) - 24, "Size");
+    mvwprintw(base->left_win, 1, (COLS / 2) - 14, "Modify time");
 
-    wbkgd(left_win, COLOR_PAIR(1));
+    wbkgd(base->left_win, COLOR_PAIR(1));
 
-    for (int i = n - 1; i >= 0; --i) {
-        stat(data[i]->d_name, &st);
+    for (int i = base->countLeftDir - 1; i >= 0; --i) {
+        stat(base->leftNamelist[i]->d_name, &st);
         char *time = printTime(&st);
 
-        if (highlight == i + 1) {
+        if (base->highlightLeft == i + 1) {
             if (S_ISDIR(st.st_mode)) {
-                mvwprintw(left_win, y, 1, "/");
+                mvwprintw(base->left_win, y, 1, "/");
             }
-            wattron(left_win, A_REVERSE);
-            mvwprintw(left_win, y, x, data[i]->d_name);
-            mvwprintw(left_win, y, (COLS / 2) - 24, "%d", st.st_size);
-            mvwprintw(left_win, y, (COLS / 2) - 14, "%s", time);
-            wattroff(left_win, A_REVERSE);
+            wattron(base->left_win, A_REVERSE);
+            mvwprintw(base->left_win, y, x, base->leftNamelist[i]->d_name);
+            mvwprintw(base->left_win, y, (COLS / 2) - 24, "%d", st.st_size);
+            mvwprintw(base->left_win, y, (COLS / 2) - 14, "%s", time);
+            wattroff(base->left_win, A_REVERSE);
         } else {
             if (S_ISDIR(st.st_mode)) {
-                mvwprintw(left_win, y, 1, "/");
+                mvwprintw(base->left_win, y, 1, "/");
             }
-            mvwprintw(left_win, y, x, data[i]->d_name);
-            mvwprintw(left_win, y, (COLS / 2) - 24, "%d", st.st_size);
-            mvwprintw(left_win, y, (COLS / 2) - 14, "%s", time);
+            mvwprintw(base->left_win, y, x, base->leftNamelist[i]->d_name);
+            mvwprintw(base->left_win, y, (COLS / 2) - 24, "%d", st.st_size);
+            mvwprintw(base->left_win, y, (COLS / 2) - 14, "%s", time);
         }
 
         free(time);
         ++y;
     }
-    wscrl(left_win, y);
-    wrefresh(left_win);
+    wscrl(base->left_win, y);
+    wrefresh(base->left_win);
 }
 
-void printRightWindow(WINDOW *right_win, struct dirent **data, int highlight, int n) {
+void printRightWindow(Data *base) {
     int x = 2, y = 2;
-    mvwprintw(right_win, 1, 1, "Dir");
-    mvwprintw(right_win, 1, (COLS / 2) - 24, "Size");
-    mvwprintw(right_win, 1, (COLS / 2) - 14, "Modify time");
+    mvwprintw(base->right_win, 1, 1, "Dir");
+    mvwprintw(base->right_win, 1, (COLS / 2) - 24, "Size");
+    mvwprintw(base->right_win, 1, (COLS / 2) - 14, "Modify time");
 
-    box(right_win, 0, 0);
+    box(base->right_win, 0, 0);
     struct stat st;
 
-    wbkgd(right_win, COLOR_PAIR(1));
+    wbkgd(base->right_win, COLOR_PAIR(1));
 
-    for (int i = n - 1; i >= 0; --i) {
-        stat(data[i]->d_name, &st);
+    for (int i = base->countRightDir - 1; i >= 0; --i) {
+        stat(base->rightNamelist[i]->d_name, &st);
         char *time = printTime(&st);
-        if (highlight == i + 1) {
+        if (base->highlightRight == i + 1) {
             if (S_ISDIR(st.st_mode)) {
-                mvwprintw(right_win, y, 1, "/");
+                mvwprintw(base->right_win, y, 1, "/");
             }
-            wattron(right_win, A_REVERSE);
-            mvwprintw(right_win, y, x, data[i]->d_name);
-            mvwprintw(right_win, y, (COLS / 2) - 24, "%d", st.st_size);
-            mvwprintw(right_win, y, (COLS / 2) - 14, "%s", time);
-            wattroff(right_win, A_REVERSE);
+            wattron(base->right_win, A_REVERSE);
+            mvwprintw(base->right_win, y, x, base->rightNamelist[i]->d_name);
+            mvwprintw(base->right_win, y, (COLS / 2) - 24, "%d", st.st_size);
+            mvwprintw(base->right_win, y, (COLS / 2) - 14, "%s", time);
+            wattroff(base->right_win, A_REVERSE);
         } else {
             if (S_ISDIR(st.st_mode)) {
-                mvwprintw(right_win, y, 1, "/");
+                mvwprintw(base->right_win, y, 1, "/");
             }
-            mvwprintw(right_win, y, x, data[i]->d_name);
-            mvwprintw(right_win, y, (COLS / 2) - 24, "%d", st.st_size);
-            mvwprintw(right_win, y, (COLS / 2) - 14, "%s", time);
+            mvwprintw(base->right_win, y, x, base->rightNamelist[i]->d_name);
+            mvwprintw(base->right_win, y, (COLS / 2) - 24, "%d", st.st_size);
+            mvwprintw(base->right_win, y, (COLS / 2) - 14, "%s", time);
         }
         free(time);
         ++y;
     }
-    wrefresh(right_win);
+    wrefresh(base->right_win);
 }
 
 char *printTime(struct stat *st) {
@@ -88,7 +88,8 @@ char *printTime(struct stat *st) {
 }
 
 void mcRun() {
-    WINDOW *left_win, *right_win;
+    Data base;
+
     int c = 0, flagWindow = 0;
 
     initscr();
@@ -101,63 +102,62 @@ void mcRun() {
     init_pair(1, COLOR_WHITE, COLOR_BLUE);
     init_pair(2, COLOR_YELLOW, COLOR_BLUE);
 
-    right_win = newwin(LINES, COLS / 2, 0, COLS / 2);
-    left_win = newwin(LINES, COLS / 2, 0, 0);
+    base.right_win = newwin(LINES, COLS / 2, 0, COLS / 2);
+    base.left_win = newwin(LINES, COLS / 2, 0, 0);
 
-    char *curentDir = getcwd(NULL, 0);
+    base.curentDir = getcwd(NULL, 0);
 
-    struct dirent **leftNamelist;
-    struct dirent **rightNamelist;
+    base.countLeftDir = scandir(base.curentDir, &base.leftNamelist, NULL, alphasort);
+    base.countRightDir = scandir(base.curentDir, &base.rightNamelist, NULL, alphasort);
 
-    int countLeftDir = scandir(curentDir, &leftNamelist, NULL, alphasort);
-    int countRightDir = scandir(curentDir, &rightNamelist, NULL, alphasort);
+    base.highlightLeft = 0;
+    base.highlightRight = 0;
 
-    int highlightLeft = 0, highlightRight = 0;
-    highlightLeft = countLeftDir;
-    highlightRight = countRightDir;
+    base.highlightLeft = base.countLeftDir;
+    base.highlightRight = base.countRightDir;
 
-    keypad(left_win, TRUE);
-    keypad(right_win, TRUE);
+    keypad(base.left_win, TRUE);
+    keypad(base.right_win, TRUE);
 
     refresh();
 
-    printLeftWindow(left_win, leftNamelist, highlightLeft, countLeftDir);
-    printRightWindow(right_win, rightNamelist, highlightRight, countRightDir);
+    printLeftWindow(&base);
+    printRightWindow(&base);
 
     while (c != 'q') {
         if (flagWindow == 0) {
-            c = wgetch(left_win);
+            c = wgetch(base.left_win);
         } else {
-            c = wgetch(right_win);
+            c = wgetch(base.right_win);
         }
         switch (c) {
             case KEY_DOWN:
                 if (flagWindow == 0) {
-                    if (highlightLeft == 1) {
-                        highlightLeft = countLeftDir;
+                    if (base.highlightLeft == 1) {
+                        base.highlightLeft = base.countLeftDir;
                     } else {
-                        --highlightLeft;
+                        --base.highlightLeft;
                     }
                 } else {
-                    if (highlightRight == 1) {
-                        highlightRight = countRightDir;
+                    if (base.highlightRight == 1) {
+                        base.highlightRight = base.countRightDir;
                     } else {
-                        --highlightRight;
+                        --base.highlightRight;
                     }
                 }
                 break;
             case KEY_UP:
                 if (flagWindow == 0) {
-                    if (highlightLeft == countLeftDir) {
-                        highlightLeft = 1;
+                    if (base.highlightLeft == base.countLeftDir) {
+                        base.highlightLeft = 1;
                     } else {
-                        ++highlightLeft;
+                        ++base.highlightLeft;
                     }
                 } else {
-                    if (highlightRight == countRightDir) {
-                        highlightRight = 1;
+                    if (base.highlightRight == base.countRightDir) {
+                        base.highlightRight = 1;
                     } else {
-                        ++highlightRight;
+                        ++base.highlightRight;
                     }
                 }
                 break;
@@ -169,20 +169,20 @@ void mcRun() {
                 break;
             case 10:
                 if (flagWindow == 0) {
-                    wclear(left_win);
-
-                    char *leftBuff = getcwd(NULL, 1024);
-                    strcat(leftBuff, "/");
-                    strcat(leftBuff, leftNamelist[highlightLeft - 1]->d_name);
+                    wclear(base.left_win);
+                    char *leftBuff = getcwd(NULL, maxPathLength);
+                    strncat(leftBuff, "/", 2);
+                    strncat(leftBuff, base.leftNamelist[base.highlightLeft - 1]->d_name,
+                            strlen(base.leftNamelist[base.highlightLeft - 1]->d_name));
 
                     if (chdir(leftBuff) == 0) {
-                        while (countLeftDir--) {
-                            free(leftNamelist[countLeftDir]);
+                        while (base.countLeftDir--) {
+                            free(base.leftNamelist[base.countLeftDir]);
                         }
-                        free(leftNamelist);
+                        free(base.leftNamelist);
 
-                        countLeftDir = scandir(leftBuff, &leftNamelist, NULL, alphasort);
-                        highlightLeft = countLeftDir;
+                        base.countLeftDir = scandir(leftBuff, &base.leftNamelist, NULL, alphasort);
+                        base.highlightLeft = base.countLeftDir;
 
                         free(leftBuff);
                     } else {
@@ -190,19 +190,21 @@ void mcRun() {
                     }
                     break;
                 } else {
-                    wclear(right_win);
-                    char *rightBuff = getcwd(NULL, 0);
-                    strcat(rightBuff, "/");
-                    strcat(rightBuff, rightNamelist[highlightRight - 1]->d_name);
+                    wclear(base.right_win);
+                    char *rightBuff = getcwd(NULL, maxPathLength);
+                    strncat(rightBuff, "/", 2);
+                    strncat(rightBuff, base.rightNamelist[base.highlightRight - 1]->d_name,
+                            strlen(base.rightNamelist[base.highlightRight - 1]->d_name));
 
                     if (chdir(rightBuff) == 0) {
-                        while (countRightDir--) {
-                            free(rightNamelist[countRightDir]);
+                        while (base.countRightDir--) {
+                            free(base.rightNamelist[base.countRightDir]);
                         }
-                        free(rightNamelist);
+                        free(base.rightNamelist);
 
-                        countRightDir = scandir(rightBuff, &rightNamelist, NULL, alphasort);
-                        highlightRight = countRightDir;
+                        base.countRightDir =
+                            scandir(rightBuff, &base.rightNamelist, NULL, alphasort);
+                        base.highlightRight = base.countRightDir;
 
                         free(rightBuff);
                     } else {
@@ -215,28 +217,26 @@ void mcRun() {
                 break;
         }
         if (flagWindow == 0) {
-            printLeftWindow(left_win, leftNamelist, highlightLeft, countLeftDir);
+            printLeftWindow(&base);
         } else {
-            printRightWindow(right_win, rightNamelist, highlightRight, countRightDir);
+            printRightWindow(&base);
         }
     }
-    memClean(countLeftDir, countRightDir, left_win, leftNamelist, right_win, rightNamelist,
-             curentDir);
+    memClean(&base);
 }
 
-void memClean(int countLeftDir, int countRightDir, WINDOW *left_win, struct dirent **leftNamelist,
-              WINDOW *right_win, struct dirent **rightNamelist, char *curentDir) {
-    while (countLeftDir--) {
-        free(leftNamelist[countLeftDir]);
+void memClean(Data *base) {
+    while (base->countLeftDir--) {
+        free(base->leftNamelist[base->countLeftDir]);
     }
-    free(leftNamelist);
+    free(base->leftNamelist);
 
-    while (countRightDir--) {
-        free(rightNamelist[countRightDir]);
+    while (base->countRightDir--) {
+        free(base->rightNamelist[base->countRightDir]);
     }
-    free(rightNamelist);
-    free(curentDir);
-    delwin(left_win);
-    delwin(right_win);
+    free(base->rightNamelist);
+    free(base->curentDir);
+    delwin(base->left_win);
+    delwin(base->right_win);
     endwin();
 }
