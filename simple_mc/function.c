@@ -167,24 +167,25 @@ void mcRun() {
             case KEY_LEFT:
                 flagWindow = 0;
                 break;
-            case 10:
+            case 10:;
                 // if (flagWindow == 0) {
-                //     wclear(left_win);
+                wclear(left_win);
 
-                //     char *leftBuff = getcwd(NULL, 0);
-                //     strcat(leftBuff, "/");
-                //     strcat(leftBuff, leftNamelist[highlightLeft - 1]->d_name);
+                char *leftBuff = getcwd(NULL, 0);
+                strcat(leftBuff, "/");
+                strcat(leftBuff, leftNamelist[highlightLeft - 1]->d_name);
 
-                //     if (chdir(leftBuff) == 0) {
-                //         while (countLeftDir--) {
-                //             free(leftNamelist[countLeftDir]);
-                //         }
-                //         free(leftNamelist);
+                if (chdir(leftBuff) == 0) {
+                    while (countLeftDir--) {
+                        free(leftNamelist[countLeftDir]);
+                    }
+                    free(leftNamelist);
 
-                //         countLeftDir = scandir(leftBuff, &leftNamelist, NULL, alphasort);
-                //         highlightLeft = countLeftDir;
+                    countLeftDir = scandir(leftBuff, &leftNamelist, NULL, alphasort);
+                    highlightLeft = countLeftDir;
 
-                //         free(leftBuff);
+                    free(leftBuff);
+                }
                 //     } else {
                 //         free(leftBuff);
                 //     }
