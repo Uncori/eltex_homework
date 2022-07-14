@@ -176,11 +176,11 @@ void mcRun() {
                         strlen(leftNamelist[highlightLeft - 1]->d_name));
 
                 chdir(leftBuff);
-                while (countLeftDir--) {
-                    free(leftNamelist[countLeftDir]);
-                }
+                // while (countLeftDir--) {
+                //     free(leftNamelist[countLeftDir]);
+                // }
+                // free(leftNamelist);
 
-                free(leftNamelist);
                 countLeftDir = scandir(leftBuff, &leftNamelist, NULL, alphasort);
                 highlightLeft = countLeftDir;
 
