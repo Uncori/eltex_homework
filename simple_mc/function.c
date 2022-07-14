@@ -175,16 +175,16 @@ void mcRun() {
                 strncat(leftBuff, leftNamelist[highlightLeft - 1]->d_name,
                         strlen(leftNamelist[highlightLeft - 1]->d_name));
 
-                chdir(leftBuff);
-                // while (countLeftDir--) {
-                //     free(leftNamelist[countLeftDir]);
-                // }
-                // free(leftNamelist);
+                // chdir(leftBuff);
+                // // while (countLeftDir--) {
+                // //     free(leftNamelist[countLeftDir]);
+                // // }
+                // // free(leftNamelist);
 
-                countLeftDir = scandir(leftBuff, &leftNamelist, NULL, alphasort);
-                highlightLeft = countLeftDir;
+                // countLeftDir = scandir(leftBuff, &leftNamelist, NULL, alphasort);
+                // highlightLeft = countLeftDir;
 
-                free(leftBuff);
+                // free(leftBuff);
 
                 break;
             default:
