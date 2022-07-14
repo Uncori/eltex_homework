@@ -174,7 +174,7 @@ void mcRun() {
                 char *leftBuff = getcwd(NULL, 0);
                 strcat(leftBuff, "/");
                 strcat(leftBuff, leftNamelist[highlightLeft - 1]->d_name);
-
+                chdir(leftBuff);
                 // if (chdir(leftBuff) == 0) {
                 //     while (countLeftDir--) {
                 //         free(leftNamelist[countLeftDir]);
