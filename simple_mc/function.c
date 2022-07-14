@@ -175,41 +175,42 @@ void mcRun() {
                     strcat(leftBuff, "/");
                     strcat(leftBuff, leftNamelist[highlightLeft - 1]->d_name);
 
-                    if (chdir(leftBuff) == 0) {
-                        while (countLeftDir--) {
-                            free(leftNamelist[countLeftDir]);
-                        }
-                        free(leftNamelist);
+                    // if (chdir(leftBuff) == 0) {
+                    //     while (countLeftDir--) {
+                    //         free(leftNamelist[countLeftDir]);
+                    //     }
+                    //     free(leftNamelist);
 
-                        countLeftDir = scandir(leftBuff, &leftNamelist, NULL, alphasort);
-                        highlightLeft = countLeftDir;
+                    //     countLeftDir = scandir(leftBuff, &leftNamelist, NULL, alphasort);
+                    //     highlightLeft = countLeftDir;
 
-                        free(leftBuff);
-                    } else {
-                        free(leftBuff);
-                    }
-                    break;
-                } else {
-                    wclear(right_win);
-                    char *rightBuff = getcwd(NULL, 0);
-                    strcat(rightBuff, "/");
-                    strcat(rightBuff, rightNamelist[highlightRight - 1]->d_name);
-
-                    if (chdir(rightBuff) == 0) {
-                        while (countRightDir--) {
-                            free(rightNamelist[countRightDir]);
-                        }
-                        free(rightNamelist);
-
-                        countRightDir = scandir(rightBuff, &rightNamelist, NULL, alphasort);
-                        highlightRight = countRightDir;
-
-                        free(rightBuff);
-                    } else {
-                        free(rightBuff);
-                    }
+                    //     free(leftBuff);
+                    // } else {
+                    free(leftBuff);
+                    // }
                     break;
                 }
+                //  else {
+                //     wclear(right_win);
+                //     char *rightBuff = getcwd(NULL, 0);
+                //     strcat(rightBuff, "/");
+                //     strcat(rightBuff, rightNamelist[highlightRight - 1]->d_name);
+
+                //     if (chdir(rightBuff) == 0) {
+                //         while (countRightDir--) {
+                //             free(rightNamelist[countRightDir]);
+                //         }
+                //         free(rightNamelist);
+
+                //         countRightDir = scandir(rightBuff, &rightNamelist, NULL, alphasort);
+                //         highlightRight = countRightDir;
+
+                //         free(rightBuff);
+                //     } else {
+                //         free(rightBuff);
+                //     }
+                //     break;
+                // }
             default:
                 refresh();
                 break;
