@@ -13,11 +13,22 @@
 #include <time.h>
 #include <unistd.h>
 
+typedef struct dataBase {
+    WINDOW *left_win;
+    WINDOW *right_win;
+    struct dirent **leftNamelist;
+    struct dirent **rightNamelist;
+    int countLeftDir;
+    int countRightDir;
+    int highlightLeft;
+    int highlightRight;
+    char *curentDir;
+} Data;
+
 void mcRun();
 char *printTime(struct stat *st);
-void printLeftWindow(WINDOW *left_win, struct dirent **data, int highlight, int n);
-void printRightWindow(WINDOW *right_win, struct dirent **data, int highlight, int n);
-void memClean(int countLeftDir, int countRightDir, WINDOW *left_win, struct dirent **leftNamelist,
-              WINDOW *right_win, struct dirent **rightNamelist, char *curentDir);
+void printLeftWindow(Data *base);
+void printRightWindow(Data *base);
+void memClean(Data *base);
 
 #endif  // _FUNCTION_H
