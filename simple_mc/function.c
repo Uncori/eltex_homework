@@ -171,9 +171,8 @@ void mcRun() {
                 if (flagWindow == 0) {
                     wclear(base.left_win);
                     char *leftBuff = getcwd(NULL, 0);
-                    strncat(leftBuff, "/", 2);
-                    strncat(leftBuff, base.leftNamelist[base.highlightLeft - 1]->d_name,
-                            strlen(base.leftNamelist[base.highlightLeft - 1]->d_name));
+                    strcat(leftBuff, "/");
+                    strcat(leftBuff, base.leftNamelist[base.highlightLeft - 1]->d_name);
 
                     if (chdir(leftBuff) == 0) {
                         while (base.countLeftDir--) {
@@ -192,9 +191,8 @@ void mcRun() {
                 } else {
                     wclear(base.right_win);
                     char *rightBuff = getcwd(NULL, 0);
-                    strncat(rightBuff, "/", 2);
-                    strncat(rightBuff, base.rightNamelist[base.highlightRight - 1]->d_name,
-                            strlen(base.rightNamelist[base.highlightRight - 1]->d_name));
+                    strcat(rightBuff, "/");
+                    strcat(rightBuff, base.rightNamelist[base.highlightRight - 1]->d_name);
 
                     if (chdir(rightBuff) == 0) {
                         while (base.countRightDir--) {
