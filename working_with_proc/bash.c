@@ -16,9 +16,7 @@ int main(int argc, char *argv[]) {
 
         pid = fork();
         if (pid) {
-            pid_t child_pid = 0;
-            child_pid = waitpid(-1, &status, 0);
-            printf("child has finish pid = %d\n", child_pid);
+            waitpid(-1, &status, 0);
         } else if (pid == 0) {
             execvp(argv[1], arrayList);
         } else {
@@ -26,7 +24,10 @@ int main(int argc, char *argv[]) {
         }
 
         exit(EXIT_SUCCESS);
+    } else {
+        printf("not enough arguments\n");
+        exit(EXIT_FAILURE);
     }
-    printf("not enough arguments\n");
+
     return 0;
 }
