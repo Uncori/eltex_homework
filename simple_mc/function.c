@@ -168,28 +168,28 @@ void mcRun() {
                 flagWindow = 0;
                 break;
             case 10:
-                if (flagWindow == 0) {
-                    wclear(left_win);
 
-                    char *leftBuff = getcwd(NULL, 0);
-                    strcat(leftBuff, "/");
-                    strcat(leftBuff, leftNamelist[highlightLeft - 1]->d_name);
+                wclear(left_win);
 
-                    // if (chdir(leftBuff) == 0) {
-                    //     while (countLeftDir--) {
-                    //         free(leftNamelist[countLeftDir]);
-                    //     }
-                    //     free(leftNamelist);
+                char *leftBuff = getcwd(NULL, 0);
+                strcat(leftBuff, "/");
+                strcat(leftBuff, leftNamelist[highlightLeft - 1]->d_name);
 
-                    //     countLeftDir = scandir(leftBuff, &leftNamelist, NULL, alphasort);
-                    //     highlightLeft = countLeftDir;
+                // if (chdir(leftBuff) == 0) {
+                //     while (countLeftDir--) {
+                //         free(leftNamelist[countLeftDir]);
+                //     }
+                //     free(leftNamelist);
 
-                    //     free(leftBuff);
-                    // } else {
-                    free(leftBuff);
-                    // }
-                    break;
-                }
+                //     countLeftDir = scandir(leftBuff, &leftNamelist, NULL, alphasort);
+                //     highlightLeft = countLeftDir;
+
+                //     free(leftBuff);
+                // } else {
+                free(leftBuff);
+                // }
+                break;
+
                 //  else {
                 //     wclear(right_win);
                 //     char *rightBuff = getcwd(NULL, 0);
