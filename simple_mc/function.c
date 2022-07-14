@@ -171,9 +171,9 @@ void mcRun() {
                 wclear(left_win);
 
                 char *leftBuff = getcwd(NULL, 0);
-                strncat(leftBuff, "/", 2);
-                strncat(leftBuff, leftNamelist[highlightLeft - 1]->d_name,
-                        strlen(leftNamelist[highlightLeft - 1]->d_name));
+                // strncat(leftBuff, "/", 2);
+                // strncat(leftBuff, leftNamelist[highlightLeft - 1]->d_name,
+                //         strlen(leftNamelist[highlightLeft - 1]->d_name));
 
                 // chdir(leftBuff);
                 // // while (countLeftDir--) {
