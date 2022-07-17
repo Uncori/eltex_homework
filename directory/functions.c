@@ -4,10 +4,10 @@ void save_directory(directory *data) {
     FILE *settings_file;
     settings_file = fopen("directory.txt", "w");
     for (unsigned int i = 0; i < data->count_subscriber; ++i) {
-        fprintf(settings_file, data->subscriber[i].first_name);
-        fprintf(settings_file, data->subscriber[i].last_name);
-        fprintf(settings_file, data->subscriber[i].phone_number);
-        fprintf(settings_file, data->subscriber[i].second_name);
+        fprintf(settings_file, "%s", data->subscriber[i].first_name);
+        fprintf(settings_file, "%s", data->subscriber[i].last_name);
+        fprintf(settings_file, "%s", data->subscriber[i].phone_number);
+        fprintf(settings_file, "%s", data->subscriber[i].second_name);
     }
     fclose(settings_file);
 }
