@@ -1,8 +1,19 @@
 #include <stdio.h>
 
 #define N 5
+void funcOne();
+void funcTwo();
+void funcFree();
+void funcFour();
 
 int main(void) {
+    funcOne();
+    funcTwo();
+    funcFree();
+    funcFour();
+}
+
+void funcOne() {
     int array[N][N];
     int k = 0;
     for (int i = 0; i < N; ++i) {
@@ -19,7 +30,8 @@ int main(void) {
     }
 
     printf("-----------------\n");
-
+}
+void funcTwo() {
     int array_2[N];
     printf("---> ");
     for (int i = 0; i < N; ++i) {
@@ -35,7 +47,9 @@ int main(void) {
     printf("\n");
 
     printf("-----------------\n");
-
+}
+void funcFree() {
+    int array[N][N];
     int temp = 4;
     for (int i = 0; i < N; ++i) {
         for (int j = N - 1; j >= temp; --j) {
@@ -55,7 +69,8 @@ int main(void) {
         printf("\n");
     }
     printf("-----------------\n");
-
+}
+void funcFour() {
     int array_sp[N][N], counter = 1, startCol = 0, endCol = N - 1, startRow = 0, endRow = N - 1;
 
     while (startCol <= endCol && startRow <= endRow) {

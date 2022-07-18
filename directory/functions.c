@@ -13,12 +13,13 @@ void save_directory(directory *data) {
 }
 
 void read_directory(directory *data) {
-    size_t len = 0, count = 0;
+    size_t len = 0;
     FILE *settings_file;
 
     settings_file = fopen("directory.txt", "a+");
 
     if (settings_file != NULL) {
+        int count = 0;
         while (!feof(settings_file)) {
             fscanf(settings_file, "%*[^\n]%*c");
             count++;
