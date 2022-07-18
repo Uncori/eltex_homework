@@ -50,9 +50,6 @@ static void *buyArray(void *arg) {
         if (arrayShop[rand_i] > arrayBuyer[step]) {
             arrayShop[rand_i] -= arrayBuyer[step];
             arrayBuyer[step] -= arrayShop[rand_i];
-        } else if (arrayBuyer[step] < arrayShop[rand_i]) {
-            arrayShop[rand_i] -= arrayBuyer[step];
-            arrayBuyer[step] = 0;
         } else {
             arrayBuyer[step] -= arrayShop[rand_i];
             arrayShop[rand_i] = 0;
@@ -61,6 +58,7 @@ static void *buyArray(void *arg) {
         logBuyer(rand_i, step);
         sleep(2);
     }
+    return NULL;
 }
 void *fillShop(void *arg) {
     while (1) {
@@ -72,6 +70,7 @@ void *fillShop(void *arg) {
             sleep(1);
         }
     }
+    return NULL;
 }
 
 int main(void) {
