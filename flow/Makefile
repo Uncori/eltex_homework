@@ -1,10 +1,13 @@
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra -std=c11 -D_GNU_SOURCE
 
-all: ww_files
+all: flow
 
-ww_files:
+flow:
 	${CC} ${CFLAGS} func.c main.c -o flow -lpthread
 
+run:
+	./flow
+	
 clean:
 	rm -rf flow
