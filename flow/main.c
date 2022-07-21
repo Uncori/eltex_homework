@@ -9,7 +9,6 @@ int main(void) {
     pthread_t loaderFlow;
 
     int result;
-    void *res;
 
     result = pthread_mutex_init(&mutex, NULL);
     checkResultMutInit(&result);
@@ -17,18 +16,8 @@ int main(void) {
     result = pthread_create(&fillFLow, NULL, fillArrays, NULL);
     checkResultCreate(&result);
 
-    // result = pthread_cancel(fillFLow);
-    // checkResultCancel(&result);
-
     result = pthread_join(fillFLow, NULL);
     checkResultJoin(&result);
-
-    // if (res == PTHREAD_CANCELED) {
-    //     printf("Thread was canceled\n");
-    //     exit(EXIT_SUCCESS);
-    // } else {
-    //     printf("Thread was not canceled (should not happen!)\n");
-    // }
 
     result = pthread_create(&loaderFlow, NULL, fillShop, NULL);
     checkResultCreate(&result);
@@ -42,10 +31,12 @@ int main(void) {
     for (int i = 0; i < BUYERFLOW_COUNT; ++i) {
         result = pthread_join(buyerFlow[i], NULL);
         checkResultJoin(&result);
+        sleep(1);
     }
     result = pthread_join(loaderFlow, NULL);
     checkResultJoin(&result);
 
     pthread_mutex_destroy(&mutex);
-    exit(EXIT_SUCCESS);
+
+    pthread_exit(NULL);
 }

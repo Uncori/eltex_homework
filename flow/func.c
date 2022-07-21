@@ -4,12 +4,13 @@ pthread_mutex_t mutex;
 
 int arrayShop[SHOP_SIZE];
 int arrayBuyer[BUYERFLOW_COUNT];
+int flag = -1;
 
 void *buyArray(void *arg) {
     int step = *((int *)arg);
-    int rand_i = 0, res = 0;
+    int rand_i = 0;
 
-    while (arrayBuyer[step] >= 0) {
+    while (arrayBuyer[step] > 0) {
         pthread_mutex_lock(&mutex);
         rand_i = rand() % ((SHOP_SIZE - 1) - 0 + 1) + 0;
         logBuyerBefore(rand_i, step);
@@ -22,13 +23,15 @@ void *buyArray(void *arg) {
         }
         logBuyerAfter(rand_i, step);
         pthread_mutex_unlock(&mutex);
-        sleep(2);
+        sleep(3);
     }
-
-    return NULL;
+    flag = 0;
+    pthread_exit(NULL);
 }
 
 void *fillArrays(void *arg) {
+    if (arg) {
+    }
     for (int i = 0; i < SHOP_SIZE; ++i) {
         arrayShop[i] = rand() % (510 - 490 + 1) + 490;
     }
@@ -36,7 +39,7 @@ void *fillArrays(void *arg) {
     for (int i = 0; i < BUYERFLOW_COUNT; ++i) {
         arrayBuyer[i] = BALANCE_BUYER;
     }
-    return NULL;
+    pthread_exit(NULL);
 }
 
 void logBuyerBefore(int arrayShop_i, int arrayBuyer_i) {
@@ -65,7 +68,9 @@ void logLoader(int loaderFlow) {
 }
 
 void *fillShop(void *arg) {
-    while (1) {
+    if (arg) {
+    }
+    while (flag) {
         for (int i = 0; i < SHOP_SIZE; ++i) {
             pthread_mutex_lock(&mutex);
             arrayShop[i] += 500;
@@ -74,7 +79,7 @@ void *fillShop(void *arg) {
             sleep(1);
         }
     }
-    return NULL;
+    pthread_exit(NULL);
 }
 
 void checkResultMutInit(int *result) {
