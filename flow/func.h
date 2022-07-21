@@ -18,9 +18,8 @@ void logBuyerBefore(int arrayShop_i, int arrayBuyer_i);
 void logBuyerAfter(int arrayShop_i, int arrayBuyer_i);
 void logLoader(int loaderFlow);
 void *fillShop(void *arg);
-void checkResultMutInit(int *result);
-void checkResultCreate(int *result);
-void checkResultCancel(int *result);
-void checkResultJoin(int *result);
+void checkResultMutInit(const int *result);
+void checkResultCreate(const int *result);
+void checkResultJoin(const int *result);
 
 #endif  // _FUNC_H_
