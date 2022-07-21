@@ -4,7 +4,7 @@ pthread_mutex_t mutex;
 
 int arrayShop[SHOP_SIZE];
 int arrayBuyer[BUYERFLOW_COUNT];
-int flag = -1;
+int flag = 0;
 
 void *buyArray(void *arg) {
   int step = *((int *)arg);
@@ -24,7 +24,7 @@ void *buyArray(void *arg) {
     pthread_mutex_unlock(&mutex);
     sleep(3);
   }
-  flag = 0;
+  flag += 1;
   pthread_exit(NULL);
 }
 
@@ -44,14 +44,14 @@ void *fillArrays(void *arg) {
 void logBuyerBefore(int arrayShop_i, int arrayBuyer_i) {
   printf("\n");
   printf("-----------------Отчёт-магазина-----------------\n");
-  printf("Покупатель: %d\n", arrayBuyer_i);
-  printf("Посетил магазин %d\n", arrayShop_i);
+  printf("Покупатель: %d\n", arrayBuyer_i + 1);
+  printf("Посетил магазин %d\n", arrayShop_i + 1);
   printf("Текущий бюджет покупателя: %d\n", arrayBuyer[arrayBuyer_i]);
   printf("Текущая касса магазина: %d\n", arrayShop[arrayShop_i]);
 }
 
 void logBuyerAfter(int arrayShop_i, int arrayBuyer_i) {
-  printf("\tБюджет покупателя после покупок [%d]: %d\n", arrayBuyer_i,
+  printf("\tБюджет покупателя после покупок [%d]: %d\n", arrayBuyer_i + 1,
          arrayBuyer[arrayBuyer_i]);
   printf("\tКасса магазина[%d] = %d\n", arrayShop_i, arrayShop[arrayShop_i]);
   printf("------------------------------------------------\n");
@@ -61,8 +61,8 @@ void logBuyerAfter(int arrayShop_i, int arrayBuyer_i) {
 void logLoader(int loaderFlow) {
   printf("\n");
   printf("------------------Отчёт-погрузчика------------------\n");
-  printf("Погрузчик загрузил 500 товаров в %d-й магазин\n", loaderFlow);
-  printf("Количество товаров в %d-ом магазине: %d\n", loaderFlow,
+  printf("Погрузчик загрузил 500 товаров в %d-й магазин\n", loaderFlow + 1);
+  printf("Количество товаров в %d-ом магазине: %d\n", loaderFlow + 1,
          arrayShop[loaderFlow]);
   printf("------------------------------------------------\n");
   printf("\n");
@@ -71,7 +71,7 @@ void logLoader(int loaderFlow) {
 void *fillShop(void *arg) {
   if (arg) {
   }
-  while (flag) {
+  while (flag < 3) {
     for (int i = 0; i < SHOP_SIZE; ++i) {
       pthread_mutex_lock(&mutex);
       arrayShop[i] += 500;
