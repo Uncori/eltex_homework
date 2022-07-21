@@ -22,7 +22,7 @@ void *buyArray(void *arg) {
     }
     logBuyerAfter(rand_i, step);
     pthread_mutex_unlock(&mutex);
-    sleep(3);
+    sleep(2);
   }
   flag += 1;
   pthread_exit(NULL);
