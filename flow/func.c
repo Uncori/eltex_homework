@@ -8,11 +8,10 @@ int flag = -1;
 
 void *buyArray(void *arg) {
     int step = *((int *)arg);
-    int rand_i = 0;
 
     while (arrayBuyer[step] > 0) {
         pthread_mutex_lock(&mutex);
-        rand_i = rand() % ((SHOP_SIZE - 1) - 0 + 1) + 0;
+        int rand_i = rand() % ((SHOP_SIZE - 1) - 0 + 1) + 0;
         logBuyerBefore(rand_i, step);
         if (arrayShop[rand_i] > arrayBuyer[step]) {
             arrayShop[rand_i] -= arrayBuyer[step];
@@ -29,7 +28,7 @@ void *buyArray(void *arg) {
     pthread_exit(NULL);
 }
 
-void *fillArrays(void *arg) {
+void *fillArrays(const void *arg) {
     if (arg) {
     }
     for (int i = 0; i < SHOP_SIZE; ++i) {
@@ -67,7 +66,7 @@ void logLoader(int loaderFlow) {
     printf("\n");
 }
 
-void *fillShop(void *arg) {
+void *fillShop(const void *arg) {
     if (arg) {
     }
     while (flag) {
@@ -82,28 +81,21 @@ void *fillShop(void *arg) {
     pthread_exit(NULL);
 }
 
-void checkResultMutInit(int *result) {
+void checkResultMutInit(const int *result) {
     if (*result != 0) {
         perror("Multex initialization failed!\n");
         exit(EXIT_FAILURE);
     }
 }
 
-void checkResultCreate(int *result) {
+void checkResultCreate(const int *result) {
     if (*result != 0) {
         perror("Thread creation failed!\n");
         exit(EXIT_FAILURE);
     }
 }
 
-void checkResultCancel(int *result) {
-    if (*result != 0) {
-        perror("Thread cancel failed!\n");
-        exit(EXIT_FAILURE);
-    }
-}
-
-void checkResultJoin(int *result) {
+void checkResultJoin(const int *result) {
     if (*result != 0) {
         perror("Thread join failed!\n");
         exit(EXIT_FAILURE);
