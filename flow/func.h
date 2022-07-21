@@ -10,7 +10,7 @@
 
 #define SHOP_SIZE 4
 #define BUYERFLOW_COUNT 3
-#define BALANCE_BUYER 1000
+#define BALANCE_BUYER 10000
 
 void *fillArrays(void *arg);
 void *buyArray(void *arg);
