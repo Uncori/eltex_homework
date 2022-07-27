@@ -9,4 +9,4 @@ sbash:
 clean:
 	@rm -rf sbash
 
-rebuild: clean s21_cat
+rebuild: clean sbash
