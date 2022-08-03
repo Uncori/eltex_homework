@@ -10,15 +10,18 @@
 int main(void) {
   FILE *fifo;
   char *buf;
-  if (mkfifo("myfifo", 0640) == -1) {
+
+  if (mkfifo("myfifo", S_IRWXU) == -1) {
     fprintf(stderr, "Can't create fifo\n");
     return 1;
   }
+
   fifo = fopen(FIFO_NAME, "r");
   if (fifo == NULL) {
     fprintf(stderr, "Cannot open fifo\n");
     return 1;
   }
+
   buf = (char *)malloc(BUF_SIZE);
   if (buf == NULL) {
     fprintf(stderr, "malloc () error\n");
