@@ -7,9 +7,6 @@ build:
 	@${CC} ${CFLAGS} client.c -o client
 	@${CC} ${CFLAGS} server.c -o server
 
-run_client:
-	@./client
-
 run_server:
 	@./server
 
