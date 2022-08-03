@@ -7,10 +7,10 @@ build:
 	@${CC} ${CFLAGS} client.c -o client
 	@${CC} ${CFLAGS} server.c -o server
 
-client:
+run_client:
 	@./client
 
-server:
+run_server:
 	@./server
 
 clean:
