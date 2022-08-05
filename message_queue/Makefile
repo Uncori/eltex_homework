@@ -8,6 +8,8 @@ server:
 
 run:
 	@./server
+
+rebuild: clean server run
 	
 clean:
 	@rm -rf server
