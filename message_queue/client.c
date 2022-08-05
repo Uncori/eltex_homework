@@ -23,34 +23,27 @@ int main() {
 
   buffer = calloc(len, sizeof(char));
 
-  flags = O_WRONLY | O_CREAT;
-  mqd = mq_open(NAME, flags, 0777, NULL);
+  flags = O_RDONLY;
+  mqd = mq_open(NAME, flags,0777, NULL);
     
   if(mqd){
-    printf("CREATE \"%s\"\n", NAME);
+    printf("mqd =  %d \"%s\"\n",mqd, NAME);
   }
-  char msg[255] = "Hello World!";
-
-  
-  if(!mq_send(mqd,msg, strlen(msg),2)){
-    printf("msg go!\n");
-  }
-
-
-  
-  if(!mq_getattr(mqd, &attr)){
+   if(!mq_getattr(mqd, &attr)){
       printf ("mq_maxmsg = %ld, mq_msgsize = %ld, mq_curmsgs = %ld\n",
 attr.mq_maxmsg, attr.mq_msgsize, attr.mq_curmsgs);
   }
+    printf("buffer = %s, len = %ld\n", buffer, len);
+  numRead = mq_receive(mqd, buffer, len, &prio);
+  printf("Read %ld bytes; priority = %u\n", (long) numRead, prio);
 
 
+
+
+ 
   if(!mq_close(mqd)){
     printf("CLOSE!\n");
   }
 
-  /*if(!mq_unlink(NAME)) {
-    printf("UNLINK!\n");
-  }*/
- 
   exit(0);
 }
