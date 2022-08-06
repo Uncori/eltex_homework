@@ -8,18 +8,16 @@
 #define NAME "/server"
 
 int main() {
-  int flags = 0, error = 0;
+  int flags = 0;
   mqd_t mqd;
 
-  unsigned int prio;
+  //unsigned int prio;
   char *buffer;
-  ssize_t numRead;
+  //ssize_t numRead;
 
   buffer = "Hello World!";
 
   struct mq_attr attr;
-  long len = 0;
-  len = attr.mq_msgsize;
 
   //buffer = calloc(len, sizeof(char));
 

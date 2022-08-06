@@ -8,7 +8,7 @@
 #define NAME "/server"
 
 int main() {
-  int flags = 0, error = 0;
+  int flags = 0;
   mqd_t mqd;
 
   unsigned int prio;
