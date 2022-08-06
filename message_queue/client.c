@@ -45,5 +45,9 @@ attr.mq_maxmsg, attr.mq_msgsize, attr.mq_curmsgs);
     printf("CLOSE!\n");
   }
 
+  /*if(!mq_unlink(NAME)) {
+    printf("UNLINK!\n");
+  }*/
+
   exit(0);
 }

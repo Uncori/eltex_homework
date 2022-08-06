@@ -29,7 +29,6 @@ int main() {
   if(mqd){
     printf("CREATE \"%s\"\n", NAME);
   }
-  char msg[255] = "Hello World!";
 
   
   if(!mq_send(mqd,msg, strlen(msg),2)){
