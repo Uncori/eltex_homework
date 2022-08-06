@@ -9,7 +9,6 @@ server:
 client:
 	@${CC} ${CFLAGS} client.c -o client -lrt
 
-
 run_server:
 	@./server
 
@@ -18,11 +17,10 @@ run_client:
 
 rebuild: clean server client
 
-test_server:
-	@gcc server.c -o server -lrt
-
-test_client:
-	@gcc client.c -o client -lrt
+git:
+	@git add --all
+	@git commit -m "change"
+	@git push origin main
 	
 clean:
 	@rm -rf server client

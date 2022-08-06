@@ -1,3 +1,5 @@
+
+
 #include <fcntl.h>
 #include <mqueue.h>
 #include <stdio.h>
@@ -10,41 +12,46 @@
 int main() {
   int flags = 0;
   mqd_t mqd;
+  long len = 0;
 
-  unsigned int prio;
-  void *buffer;
-  ssize_t numRead;
-
+  char *msgBuffer;
   struct mq_attr attr;
 
-  flags = O_RDONLY;
+  flags = O_WRONLY;
+
   mqd = mq_open(NAME, flags);
 
   if (mqd) {
-    printf("Server[%d] open \"%s\"\n", mqd, NAME);
+    printf("Server[%d] create \"%s\"\n",mqd, NAME);
   }
+
   if (!mq_getattr(mqd, &attr)) {
     printf("mq_maxmsg = %ld, mq_msgsize = %ld, mq_curmsgs = %ld\n",
            attr.mq_maxmsg, attr.mq_msgsize, attr.mq_curmsgs);
   }
-
-  long len = 0;
+  
   len = attr.mq_msgsize;
 
-  buffer = calloc(len, sizeof(char));
+  while(1){
+  msgBuffer = calloc(len, sizeof(char));
+  fgets(msgBuffer,len,stdin);
+  if (!mq_send(mqd, msgBuffer, strlen(msgBuffer), 0)) {
+    printf("Message sent = \"%s\"\n", msgBuffer);
+    free(msgBuffer);
+  } else {
+    printf("Message not sent! = \"%s\"\n", msgBuffer);
+    free(msgBuffer);
+  }
+  }
 
-  numRead = mq_receive(mqd, buffer, len, &prio);
-  printf("Read %ld bytes; priority = %u\n", (long)numRead, prio);
-  printf("buffer = %s, len = %ld\n", (char*)buffer, len);
 
+  
 
+ 
   if (!mq_close(mqd)) {
     printf("CLOSE!\n");
   }
 
-  /*if(!mq_unlink(NAME)) {
-    printf("UNLINK!\n");
-  }*/
-
+  free(msgBuffer);
   exit(0);
 }

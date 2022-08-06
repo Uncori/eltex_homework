@@ -1,0 +1,6 @@
+make --dry-run --keep-going --print-directory
+make: Entering directory '/home/java/eltex_homework'
+make: Leaving directory '/home/java/eltex_homework'
+ 
+make: *** No targets specified and no makefile found.  Stop.
+

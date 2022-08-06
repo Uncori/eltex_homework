@@ -11,39 +11,47 @@ int main() {
   int flags = 0;
   mqd_t mqd;
 
-  //unsigned int prio;
-  char *buffer;
-  //ssize_t numRead;
-
-  buffer = "Hello World!";
+  unsigned int prio;
+  void *buffer;
+  ssize_t numRead;
 
   struct mq_attr attr;
 
-  //buffer = calloc(len, sizeof(char));
-
-  flags = O_WRONLY | O_CREAT;
+  flags = O_RDONLY | O_CREAT;
+  
   mqd = mq_open(NAME, flags, 0777, NULL);
 
   if (mqd) {
-    printf("Server[%d] create \"%s\"\n",mqd, NAME);
+    printf("Server[%d] start \"%s\"\n", mqd, NAME);
   }
-
-  if (!mq_send(mqd, buffer, strlen(buffer), 0)) {
-    printf("Message sent = \"%s\"\n", buffer);
-  }
-
+  
   if (!mq_getattr(mqd, &attr)) {
-    printf("mq_maxmsg = %ld, mq_msgsize = %ld, mq_curmsgs = %ld\n",
+    printf("\tmax count message = %ld\n\tmax messagesize = %ld\n\tcurmsgs = %ld\n",
            attr.mq_maxmsg, attr.mq_msgsize, attr.mq_curmsgs);
+  }
+
+  long len = 0;
+  len = attr.mq_msgsize;
+
+  while(1){
+  buffer = calloc(len, sizeof(char));
+
+  numRead = mq_receive(mqd, buffer, len, &prio);
+  if(numRead != -1){
+  printf("Read %ld bytes; priority = %u\n", (long)numRead, prio);
+  printf("%s",(char*)buffer);
+  free(buffer);
+  }
   }
 
   if (!mq_close(mqd)) {
     printf("CLOSE!\n");
   }
 
-  /*if(!mq_unlink(NAME)) {
+  if(!mq_unlink(NAME)) {
     printf("UNLINK!\n");
-  }*/
-
+  }
+  free(buffer);
   exit(0);
 }
+
