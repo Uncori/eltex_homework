@@ -2,12 +2,10 @@
 #include <mqueue.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/stat.h>
 #include <string.h>
+#include <sys/stat.h>
 
 #define NAME "/server"
-
-
 
 int main() {
   int flags = 0, error = 0;
@@ -24,24 +22,20 @@ int main() {
   buffer = calloc(len, sizeof(char));
 
   flags = O_RDONLY;
-  mqd = mq_open(NAME, flags,0777, NULL);
-    
-  if(mqd){
-    printf("mqd =  %d \"%s\"\n",mqd, NAME);
+  mqd = mq_open(NAME, flags, 0777, NULL);
+
+  if (mqd) {
+    printf("mqd =  %d \"%s\"\n", mqd, NAME);
   }
-   if(!mq_getattr(mqd, &attr)){
-      printf ("mq_maxmsg = %ld, mq_msgsize = %ld, mq_curmsgs = %ld\n",
-attr.mq_maxmsg, attr.mq_msgsize, attr.mq_curmsgs);
+  if (!mq_getattr(mqd, &attr)) {
+    printf("mq_maxmsg = %ld, mq_msgsize = %ld, mq_curmsgs = %ld\n",
+           attr.mq_maxmsg, attr.mq_msgsize, attr.mq_curmsgs);
   }
-    printf("buffer = %s, len = %ld\n", buffer, len);
+  printf("buffer = %s, len = %ld\n", buffer, len);
   numRead = mq_receive(mqd, buffer, len, &prio);
-  printf("Read %ld bytes; priority = %u\n", (long) numRead, prio);
+  printf("Read %ld bytes; priority = %u\n", (long)numRead, prio);
 
-
-
-
- 
-  if(!mq_close(mqd)){
+  if (!mq_close(mqd)) {
     printf("CLOSE!\n");
   }
 
