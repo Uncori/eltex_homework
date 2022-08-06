@@ -19,7 +19,7 @@ rebuild: clean server client
 
 git:
 	@git add --all
-	@git commit -m "change"
+	@git commit -m "change style" 
 	@git push origin main
 	
 clean:
