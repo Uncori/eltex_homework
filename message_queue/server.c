@@ -15,21 +15,23 @@ int main() {
   char *buffer;
   ssize_t numRead;
 
+  buffer = "Hello World!";
+
   struct mq_attr attr;
   long len = 0;
   len = attr.mq_msgsize;
 
-  buffer = calloc(len, sizeof(char));
+  //buffer = calloc(len, sizeof(char));
 
   flags = O_WRONLY | O_CREAT;
   mqd = mq_open(NAME, flags, 0777, NULL);
 
   if (mqd) {
-    printf("CREATE \"%s\"\n", NAME);
+    printf("Server[%d] create \"%s\"\n",mqd, NAME);
   }
 
-  if (!mq_send(mqd, msg, strlen(msg), 2)) {
-    printf("msg go!\n");
+  if (!mq_send(mqd, buffer, strlen(buffer), 0)) {
+    printf("Message sent = \"%s\"\n", buffer);
   }
 
   if (!mq_getattr(mqd, &attr)) {

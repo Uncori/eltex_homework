@@ -12,28 +12,31 @@ int main() {
   mqd_t mqd;
 
   unsigned int prio;
-  char *buffer;
+  void *buffer;
   ssize_t numRead;
 
   struct mq_attr attr;
-  long len = 0;
-  len = attr.mq_msgsize;
-
-  buffer = calloc(len, sizeof(char));
 
   flags = O_RDONLY;
-  mqd = mq_open(NAME, flags, 0777, NULL);
+  mqd = mq_open(NAME, flags);
 
   if (mqd) {
-    printf("mqd =  %d \"%s\"\n", mqd, NAME);
+    printf("Server[%d] open \"%s\"\n", mqd, NAME);
   }
   if (!mq_getattr(mqd, &attr)) {
     printf("mq_maxmsg = %ld, mq_msgsize = %ld, mq_curmsgs = %ld\n",
            attr.mq_maxmsg, attr.mq_msgsize, attr.mq_curmsgs);
   }
-  printf("buffer = %s, len = %ld\n", buffer, len);
+
+  long len = 0;
+  len = attr.mq_msgsize;
+
+  buffer = calloc(len, sizeof(char));
+
   numRead = mq_receive(mqd, buffer, len, &prio);
   printf("Read %ld bytes; priority = %u\n", (long)numRead, prio);
+  printf("buffer = %s, len = %ld\n", (char*)buffer, len);
+
 
   if (!mq_close(mqd)) {
     printf("CLOSE!\n");

@@ -10,6 +10,12 @@ run:
 	@./server
 
 rebuild: clean server run
+
+test_server:
+	@gcc server.c -o server -lrt
+
+test_client:
+	@gcc client.c -o client -lrt
 	
 clean:
 	@rm -rf server
