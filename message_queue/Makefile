@@ -17,9 +17,15 @@ run_client:
 
 rebuild: clean server client
 
+valgrind_server:
+	@valgrind --leak-check=full --tool=memcheck ./server
+
+valgrind_client:
+	@valgrind --leak-check=full --tool=memcheck ./client
+
 git:
 	@git add --all
-	@git commit -m "change style" 
+	@git commit -m "change" 
 	@git push origin main
 	
 clean:
