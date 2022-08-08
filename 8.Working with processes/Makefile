@@ -1,12 +1,18 @@
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra -std=c11 -D_GNU_SOURCE
 
-all: sbash
+all: sbash one two
 
 sbash:
 	@${CC} ${CFLAGS} bash.c -o sbash
 
-clean:
-	@rm -rf sbash
+one:
+	@${CC} ${CFLAGS} one.c -o one
 
-rebuild: clean sbash
+two:
+	@${CC} ${CFLAGS} two.c -o two
+
+clean:
+	@rm -rf sbash one two
+
+rebuild: clean sbash one two

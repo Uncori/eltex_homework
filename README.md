@@ -15,3 +15,10 @@
 - **Каналы**
 - **Сигналы**
 - **Очередь сообщений**
+
+## Работы выполнены на системе:
+- Operating System: Linux Mint 20.3
+- Kernel: Linux 5.4.0-122-generic
+- Architecture: x86-64
+
+

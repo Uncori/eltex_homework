@@ -4,10 +4,9 @@ CFLAGS = -Wall -Werror -Wextra -std=c11 -D_GNU_SOURCE
 all: flow
 
 flow:
-	${CC} ${CFLAGS} main.c pipe.c -o pipe
+	@${CC} ${CFLAGS} main.c pipe.c -o pipe
 
-run:
-	./pipe
+rebuild: clean pipe
 	
 clean:
-	rm -rf pipe
+	@rm -rf pipe

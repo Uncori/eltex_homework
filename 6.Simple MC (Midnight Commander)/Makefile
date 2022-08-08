@@ -5,7 +5,11 @@ all: mc
 
 mc:
 	@${CC} ${CFLAGS} main.c function.c -lncurses -o mc
+
+run:
 	@./mc
+
+rebuild: clean mc
 
 clean:
 	rm mc

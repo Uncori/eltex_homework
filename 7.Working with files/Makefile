@@ -1,10 +1,15 @@
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra -std=c11 -D_GNU_SOURCE
 
-all: ww_files
+all: file
 
-ww_files:
-	${CC} ${CFLAGS} functions.c main.c -o ww_files ; ./ww_files
+file:
+	@${CC} ${CFLAGS} functions.c main.c -o file
+
+run:
+	@./file
+
+rebuild: clean file
 
 clean:
-	rm -rf ww_files
+	@rm -rf file

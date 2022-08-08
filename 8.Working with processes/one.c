@@ -29,7 +29,7 @@ int main() {
         child_pid = wait(&stat_val);
         printf("child has finish pid = %d\n", child_pid);
         if (WIFEXITED(stat_val)) {
-            printf("child %d\n", WEXITSTATUS(stat_val));
+            printf("child finish with code = %d\n", WEXITSTATUS(stat_val));
         } else {
             printf("ok\n");
         }

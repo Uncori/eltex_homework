@@ -23,10 +23,5 @@ valgrind_server:
 valgrind_client:
 	@valgrind --leak-check=full --tool=memcheck ./client
 
-git:
-	@git add --all
-	@git commit -m "change" 
-	@git push origin main
-	
 clean:
 	@rm -rf server client

@@ -8,8 +8,9 @@ simple_calc:
 	@ar rc libfunc.a parsing.o func.o stack.o
 	@ranlib libfunc.a
 	@${CC} ${CFLAGS} main.c -L. -lfunc -o calc -lm
-	@./calc
 
+run:
+	@./calc
 
 clean:
 	@rm calc *.o *.a
