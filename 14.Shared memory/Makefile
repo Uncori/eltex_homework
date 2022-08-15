@@ -24,4 +24,4 @@ valgrind_client:
 	@valgrind --leak-check=full --tool=memcheck ./client
 
 clean:
-	@rm -rf server client /dev/shm/server
+	@rm -rf server client
