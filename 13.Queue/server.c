@@ -7,7 +7,6 @@
 
 #define SERV_NAME "/server"
 
-
 void checkRes(const int *res) {
   if (*res == -1) exit(EXIT_FAILURE);
 }
@@ -33,8 +32,8 @@ int main() {
   res = mq_getattr(mqd, &attr);
   checkRes(&res);
   printf(
-        "\tmax count message = %ld\n\tmax messagesize = %ld\n\tcurmsgs = %ld\n",
-        attr.mq_maxmsg, attr.mq_msgsize, attr.mq_curmsgs);
+      "\tmax count message = %ld\n\tmax messagesize = %ld\n\tcurmsgs = %ld\n",
+      attr.mq_maxmsg, attr.mq_msgsize, attr.mq_curmsgs);
 
   long len = 0;
   len = attr.mq_msgsize;
@@ -43,16 +42,16 @@ int main() {
     buffer = calloc(len, sizeof(char));
     numRead = mq_receive(mqd, buffer, len, &prio);
     if (numRead != -1) {
-       if(!strncmp((char*)buffer,"[client connect]\n",18)) {
+      if (!strncmp((char *)buffer, "[client connect]\n", 18)) {
         ++countClient;
-    }
-    if(!strncmp((char*)buffer,"[client disconnect]\n",21)) {
+      }
+      if (!strncmp((char *)buffer, "[client disconnect]\n", 21)) {
         --countClient;
-    }
+      }
       printf("%s", (char *)buffer);
       free(buffer);
-    } 
-    if(!countClient){
+    }
+    if (!countClient) {
       offServ = 0;
     }
   }
@@ -61,10 +60,9 @@ int main() {
   checkRes(&res);
   printf("serv [%d] \"%s\" close!\n", mqd, SERV_NAME);
 
-
   res = mq_unlink(SERV_NAME);
   checkRes(&res);
   printf("serv [%d] \"%s\" unlink!\n", mqd, SERV_NAME);
-  
+
   exit(0);
 }
