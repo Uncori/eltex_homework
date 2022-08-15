@@ -18,6 +18,7 @@
 #define IPCNAME "/server"
 #define FILEMOD 0777
 #define MAXCLIENT 16
+#define NICKNAMESIZE 55
 
 typedef struct
 {
