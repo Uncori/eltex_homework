@@ -7,7 +7,7 @@ void checkRes(const int *res, const char *msg) {
   }
 }
 
-int main(int argc, char *argv[]) {
+int main() {
   int sfd = 0, res = 0;
   char buff[BUFF_SIZE];
 
@@ -23,24 +23,19 @@ int main(int argc, char *argv[]) {
                 sizeof(struct sockaddr_un));
   checkRes(&res, "connect error");
   printf("|CLIENT| - connect complete\n");
+  printf("|CLIENT| - write massage: ");
+  fgets(buff, BUFF_SIZE, stdin);
 
-  for (int i = 1; i < argc; i++) {
-    res = write(sfd, argv[i], strlen(argv[i]) + 1);
-    checkRes(&res, "write error");
-    printf("|CLIENT| - write complete\n");
-
-    res = read(sfd, buff, BUFF_SIZE);
-    checkRes(&res, "read error");
-    printf("|CLIENT| - read complete\n");
-
-    printf("|CLIENT| - msg sent:[%s]\n", argv[i]);
-    printf("|CLIENT| - echo msg received: %s\n\n", buff);
-  }
-
-  strcpy(buff, "/exit");
-  res = write(sfd, buff, BUFF_SIZE);
+  res = write(sfd, buff, strlen(buff) - 1);
   checkRes(&res, "write error");
-  printf("|CLIENT| - last write complete\n");
+  printf("|CLIENT| - write complete\n");
+
+  res = read(sfd, buff, BUFF_SIZE);
+  checkRes(&res, "read error");
+  printf("|CLIENT| - read complete\n");
+
+  printf("|CLIENT| - msg sent: %s\n", buff);
+  printf("|CLIENT| - echo msg received: %s\n", buff);
 
   close(sfd);
   exit(EXIT_FAILURE);

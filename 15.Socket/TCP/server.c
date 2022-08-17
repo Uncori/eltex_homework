@@ -9,41 +9,43 @@ void checkRes(const int *res, const char *msg) {
 
 int main() {
   int sfd = 0, cfd = 0, res = 0;
-  struct sockaddr_un server;
-  server.sun_family = AF_LOCAL;
-  strncpy(server.sun_path, SOCKET_PATH, sizeof(server.sun_path) - 1);
+  char buff[BUFF_SIZE];
+  struct sockaddr_un addr;
 
   sfd = socket(AF_LOCAL, SOCK_STREAM, 0);
   checkRes(&sfd, "socket error");
   printf("|SERVER| - socket create\n");
 
-  res = bind(sfd, (const struct sockaddr *)&server, sizeof(struct sockaddr_un));
+  memset(&addr, 0, sizeof(struct sockaddr_un));
+  addr.sun_family = AF_LOCAL;
+  strncpy(addr.sun_path, SOCKET_PATH, sizeof(addr.sun_path) - 1);
+
+  res = bind(sfd, (const struct sockaddr *)&addr, sizeof(struct sockaddr_un));
   checkRes(&res, "bild error");
   printf("|SERVER| - bind complete\n");
   res = listen(sfd, 5);
   checkRes(&res, "listen error");
   printf("|SERVER| - listening clients\n");
 
-  cfd = accept(sfd, NULL, NULL);
-  checkRes(&cfd, "accept error");
-  printf("|SERVER| - Accept\n");
-
-  char buff[BUFF_SIZE];
-
   while (1) {
+    cfd = accept(sfd, NULL, NULL);
+    checkRes(&cfd, "accept error");
+    printf("|SERVER| - Accept\n");
+
     res = recv(cfd, buff, BUFF_SIZE, 0);
     checkRes(&res, "recv error");
-    printf("|SERVER| - recv complete\n");
+    printf("|SERVER| - recv complete : %s\n", buff);
 
-    if (strncmp(buff, "/exit", BUFF_SIZE) == 0) {
-      close(cfd);
-      break;
-    }
-
-    strcat(buff, " from server");
     res = send(cfd, buff, BUFF_SIZE, 0);
     checkRes(&res, "send error");
     printf("|SERVER| - echo recv complete\n");
+
+    if (!strncmp(buff, "!server off", 12)) {
+      close(cfd);
+      break;
+    }
+    memset(buff, 0, BUFF_SIZE);
+    close(cfd);
   }
 
   close(sfd);
