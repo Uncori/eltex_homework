@@ -1,12 +1,5 @@
 #include "header.h"
 
-void checkRes(const int *res, const char *msg) {
-  if (*res == ERROR_RETURN) {
-    perror(msg);
-    exit(EXIT_FAILURE);
-  }
-}
-
 int main() {
   int sfd = 0, res = 0;
   char buff[BUFF_SIZE];
@@ -44,10 +37,10 @@ int main() {
     printf("|CLIENT| - echo msg received: %s\n", buff);
 
     if (!strncmp(buff, "!exit", 6)) {
-      close(sfd);
-      exit(EXIT_SUCCESS);
+      break;
     }
-    sleep(3);
+
+    sleep(2);
     close(sfd);
   }
 

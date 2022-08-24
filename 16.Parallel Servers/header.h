@@ -1,6 +1,7 @@
 #ifndef _HEADER_H
 #define _HEADER_H
 
+#include <arpa/inet.h>
 #include <errno.h>
 #include <netinet/in.h>
 #include <signal.h>
@@ -16,5 +17,9 @@
 #define SIN_PORT 5005
 #define BUFF_SIZE 1024
 #define ERROR_RETURN -1
+
+void checkRes(const int *res, const char *msg);
+void sigChild(int sign);
+void processWork(int clientFd);
 
 #endif  // _HEADER_H

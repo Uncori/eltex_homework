@@ -5,10 +5,10 @@ SIN_PORT = 5005
 all: server client
 
 server:
-	@${CC} ${CFLAGS} server.c -o server
+	@${CC} ${CFLAGS} server.c func.c -o server
 
 client:
-	@${CC} ${CFLAGS} client.c -o client
+	@${CC} ${CFLAGS} client.c func.c -o client
 
 run_server:
 	@./server
