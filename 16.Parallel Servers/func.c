@@ -26,9 +26,11 @@ void processWork(int clientFd) {
   checkRes(&res, "recv error");
   printf("|SERVER| - recv complete : %s\n", buff);
 
+  strncat(buff, " - message received", 20);
+
   res = send(clientFd, buff, sizeof(buff), 0);
   checkRes(&res, "send error");
-  printf("|SERVER| - echo recv complete\n\n");
+  printf("|SERVER| - echo recv complete : %s\n\n", buff);
 
   memset(buff, 0, sizeof(buff));
 }
