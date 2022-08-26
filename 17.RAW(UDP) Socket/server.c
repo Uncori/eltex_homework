@@ -3,10 +3,9 @@
 int main() {
   struct sockaddr_in servAddr, clientAddr;
   int sfd = 0, res = 0;
-  ssize_t numBytes = 0;
+  ssize_t recvLen = 0, sendLen = 0;
   socklen_t len = 0;
   char buff[DATAGRAM_SIZE];
-  char clientIp[INET_ADDRSTRLEN];
 
   sfd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
   checkRes(&sfd, "socket error");
@@ -30,16 +29,18 @@ int main() {
   while (1) {
     len = sizeof(struct sockaddr_in);
 
-    numBytes = recvfrom(sfd, buff, DATAGRAM_SIZE, 0,
-                        (struct sockaddr *)&clientAddr, &len);
-    checkRes((int *)&numBytes, "recv");
-    printf("|SERVER| - recvfrom complete : %s\n", buff);
+    recvLen = recvfrom(sfd, buff, DATAGRAM_SIZE, 0,
+                       (struct sockaddr *)&clientAddr, &len);
+    checkRes((int *)&recvLen, "recv");
+    printf("|SERVER| - recvfrom complete: %s, recvfrom len: %d\n", buff,
+           (int)recvLen);
 
     strncat(buff, " - message received", 20);
 
-    sendto(sfd, buff, DATAGRAM_SIZE, 0, (struct sockaddr *)&clientAddr, len);
-    printf("|SERVER| - sendto complete : %s\n",
-           buff + sizeof(struct sockaddr *));
+    sendLen = sendto(sfd, buff, DATAGRAM_SIZE, 0,
+                     (struct sockaddr *)&clientAddr, len);
+    printf("|SERVER| - sendto complete: %s, sendto len: %d\n\n", buff,
+           (int)sendLen);
 
     memset(buff, 0, DATAGRAM_SIZE);
     memset(&clientAddr, 0, sizeof(struct sockaddr_in));

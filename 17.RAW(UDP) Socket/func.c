@@ -21,16 +21,15 @@ int datagramRecv(int socketFd, ssize_t recvLen, char *datagram,
   if ((ntohs(udpHeader->dest) == CLIENT_PORT)) {
     struct in_addr sAddr;
     sAddr.s_addr = ipHeader->saddr;
-    printf("|CLIENT| - server IP: %s, Source PORT: %d, Destination PORT: %d\n",
+    printf("|CLIENT| - server IP: %s, sourse port: %d, dest port: %d\n",
            inet_ntoa(sAddr), ntohs(udpHeader->source), ntohs(udpHeader->dest));
-    printf("|CLIENT| - : %d\n", (int)recvLen);
+    printf("|CLIENT| - recvfrom len: %d\n", (int)recvLen);
 
     printf("|CLIENT| - message: %s\n",
            datagram + sizeof(struct iphdr) + sizeof(struct udphdr));
 
     error = 0;
   }
-
   return error;
 }
 
