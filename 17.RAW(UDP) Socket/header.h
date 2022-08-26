@@ -12,13 +12,15 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-#define DATAGRAMM_SIZE 64
-
-#define BUFF_SIZE 255
-
+#define DATAGRAM_SIZE 255
 #define SERVER_PORT 5010
 #define CLIENT_PORT 5020
+#define ERROR -1
 
-#define ERROR_RETURN -1
+void datagramSent(int socketFd, struct sockaddr_in servAddr);
+void checkRes(const int *res, const char *sendBuff);
+int datagramRecv(int socketFd, ssize_t recvLen, char *datagram,
+                 socklen_t sockaddrLen, struct sockaddr_in servAddr,
+                 struct udphdr *udpHeader);
 
 #endif  // _HEADER_H

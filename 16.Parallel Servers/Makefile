@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra -std=c11 -D_GNU_SOURCE
-SIN_PORT = 5005
+SIN_PORT = 5010
 PID_SERVER := $(shell pidof -s server)
 
 all: server client
@@ -18,7 +18,7 @@ run_server:
 	@./server
 
 run_client:
-	@./client
+	@sudo ./client
 
 tel:
 	@telnet localhost ${SIN_PORT}
