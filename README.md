@@ -20,7 +20,7 @@
 - [**Сокеты**](https://github.com/Uncori/eltex_homework/tree/main/15.Socket)
 - [**Параллельные серверы**](https://github.com/Uncori/eltex_homework/tree/main/16.Parallel%20Servers)
 - [**Сырые сокеты RAW(UDP)**](https://github.com/Uncori/eltex_homework/tree/main/17.RAW(UDP)%20Socket)
-- [**Сырые сокеты RAW(UDP, IP)**]()
+- [**Сырые сокеты RAW(UDP, TCP)**](https://github.com/Uncori/eltex_homework/tree/main/18.RAW(UDP%20TCP)%20Socket)
 
 
 ## Работы выполнены на системе:
