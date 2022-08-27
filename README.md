@@ -2,24 +2,26 @@
 # Школа программирования ELTEX. Курс **Embedded C** 
 > группа К. Константина (_июнь 2022 года_)
 ## В репозитории находятся реализации лабораторных проектов по темам:
-- **Битовые операции** 
-- **Массивы**
-- **Указатели**
-- **Структуры**
-- **Динамическая память**
-- **Статические/Динамические библеотеки**
-- **Файловая система, работа с файлами**
+- [**Битовые операции**](https://github.com/Uncori/eltex_homework/tree/main/1.Bit%20operations)
+- [**Массивы**](https://github.com/Uncori/eltex_homework/tree/main/2.Array)
+- [**Указатели**](https://github.com/Uncori/eltex_homework/tree/main/3.Pointers)
+- [**Структуры**](https://github.com/Uncori/eltex_homework/tree/main/4.Directory)
+- [**Динамическая память**](https://github.com/Uncori/eltex_homework/tree/main/5.Mathematical%20calculator)
+- [**Статические/Динамические библеотеки**](https://github.com/Uncori/eltex_homework/tree/main/6.Simple%20MC%20(Midnight%20Commander))
+- [**Файловая система, работа с файлами**](https://github.com/Uncori/eltex_homework/tree/main/7.Working%20with%20files)
 - **Буферизованный ввод/вывод**
-- **Процессы**
-- **Потоки**
-- **Каналы**
-- **Сигналы**
-- **Очередь сообщений**
-- **Семафоры**
-- **Разделяемая память**
-- **Сокеты**
-- **Параллельные серверы**
-- **Сырые сокеты RAW(UDP)**
+- [**Процессы**](https://github.com/Uncori/eltex_homework/tree/main/8.Working%20with%20processes)
+- [**Потоки**](https://github.com/Uncori/eltex_homework/tree/main/9.Working%20with%20flows)
+- [**Каналы**](https://github.com/Uncori/eltex_homework/tree/main/10.Working%20with%20pipes)
+- [**Сигналы**](https://github.com/Uncori/eltex_homework/tree/main/11.Signals)
+- [**Очередь сообщений**](https://github.com/Uncori/eltex_homework/tree/main/13.Queue)
+- [**Семафоры**](https://github.com/Uncori/eltex_homework/tree/main/14.Shared%20memory)
+- [**Разделяемая память**](https://github.com/Uncori/eltex_homework/tree/main/14.Shared%20memory)
+- [**Сокеты**](https://github.com/Uncori/eltex_homework/tree/main/15.Socket)
+- [**Параллельные серверы**](https://github.com/Uncori/eltex_homework/tree/main/16.Parallel%20Servers)
+- [**Сырые сокеты RAW(UDP)**](https://github.com/Uncori/eltex_homework/tree/main/17.RAW(UDP)%20Socket)
+- [**Сырые сокеты RAW(UDP, IP)**]()
+
 
 ## Работы выполнены на системе:
 - Operating System: Linux Mint 20.3
