@@ -3,8 +3,11 @@
 static void *threadFunc(void *fd);
 
 int main() {
-  int socketFd = 0, res = 0, *clientFd = 0;
+  int socketFd = 0, res = 0, *clientFd = 0, i = 0;
+  pthread_t tid;
+
   char clientIp[INET_ADDRSTRLEN];
+  sockInfo info[COUNT_CLIENT];
 
   socklen_t len = 0;
   struct sockaddr_in servAddr, clientAddr;
@@ -29,9 +32,7 @@ int main() {
   checkRes(&res, "listen error");
   printf("|SERVER| - listening clients\n\n");
 
-  while (1) {
-    pthread_t tid;
-
+  while (i < COUNT_CLIENT) {
     len = sizeof(clientAddr);
     clientFd = malloc(sizeof(int));
 
@@ -44,14 +45,21 @@ int main() {
         break;
       }
     }
+    info[i].fd = *clientFd;
+    info[i].addr = clientAddr;
+    info[i].id = tid;
+
     printf("\n");
 
-    inet_ntop(AF_INET, &clientAddr.sin_addr, clientIp, INET_ADDRSTRLEN);
+    inet_ntop(AF_INET, &info[i].addr.sin_addr, clientIp, INET_ADDRSTRLEN);
     printf("------------|SERVER| - Accept-----------------\n");
-    printf("client ip = %s,port = %d\n", clientIp, ntohs(clientAddr.sin_port));
+    printf("client id = [%d] ip = %s, port = %d\n", i + 1, clientIp,
+           ntohs(info[i].addr.sin_port));
     printf("----------------------------------------------\n");
+    memset(clientIp, 0, INET_ADDRSTRLEN);
 
     pthread_create(&tid, NULL, &threadFunc, clientFd);
+    ++i;
   }
 
   close(socketFd);
@@ -59,7 +67,7 @@ int main() {
 }
 
 static void *threadFunc(void *fd) {
-  int conectFd;
+  int conectFd = 0;
 
   conectFd = *((int *)fd);
 
@@ -67,7 +75,25 @@ static void *threadFunc(void *fd) {
 
   int offProc = 1;
   while (offProc) {
-    offProc = processWork(conectFd);
+    int res = 0;
+    char buff[BUFF_SIZE];
+    memset(buff, 0, sizeof(buff));
+
+    res = recv(conectFd, buff, sizeof(buff), 0);
+    checkRes(&res, "recv error");
+    printf("|SERVER| - recv complete : %s\n", buff);
+
+    if (!strncmp(buff, "!exit\n", 7)) {
+      offProc = 0;
+    }
+
+    strncat(buff, " - message received", 20);
+
+    res = send(conectFd, buff, sizeof(buff), 0);
+    checkRes(&res, "send error");
+    printf("|SERVER| - echo recv complete : %s\n\n", buff);
+
+    memset(buff, 0, BUFF_SIZE);
   }
 
   free(fd);

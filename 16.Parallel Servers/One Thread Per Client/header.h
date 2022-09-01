@@ -15,12 +15,18 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+#define COUNT_CLIENT 32
 #define SIN_PORT 5005
 #define BUFF_SIZE 1024
 #define ERROR_RETURN -1
 
+typedef struct {
+  int fd;
+  struct sockaddr_in addr;
+  pthread_t id;
+  char clientIp[INET_ADDRSTRLEN];
+} sockInfo;
+
 void checkRes(const int *res, const char *msg);
-void sigChild(int sign);
-int processWork(int clientFd);
 
 #endif  // _HEADER_H
