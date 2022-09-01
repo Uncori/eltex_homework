@@ -55,13 +55,17 @@ int main() {
 
     if (!pid) {
       close(socketFd);
-      processWork(clientFd);
+      int offProc = 1;
+      while (offProc) {
+        offProc = processWork(clientFd);
+      }
       close(clientFd);
       exit(EXIT_SUCCESS);
     }
-    if (pid) {
+
+    if (pid > 0) {
+      close(clientFd);
     }
-    close(clientFd);
   }
 
   close(socketFd);

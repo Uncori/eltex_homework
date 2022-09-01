@@ -1,8 +1,9 @@
 #include "header.h"
 
+static void *threadFunc(void *fd);
+
 int main() {
-  int socketFd = 0, clientFd = 0, res = 0;
-  pid_t pid = 0;
+  int socketFd = 0, res = 0, *clientFd = 0;
   char clientIp[INET_ADDRSTRLEN];
 
   socklen_t len = 0;
@@ -28,12 +29,14 @@ int main() {
   checkRes(&res, "listen error");
   printf("|SERVER| - listening clients\n\n");
 
-  signal(SIGCHLD, sigChild);
-
   while (1) {
+    pthread_t tid;
+
     len = sizeof(clientAddr);
-    clientFd = accept(socketFd, (struct sockaddr *)&clientAddr, &len);
-    if (clientFd < 0) {
+    clientFd = malloc(sizeof(int));
+
+    *clientFd = accept(socketFd, (struct sockaddr *)&clientAddr, &len);
+    if (*clientFd < 0) {
       if (errno == EINTR) {
         continue;
       } else {
@@ -41,8 +44,6 @@ int main() {
         break;
       }
     }
-
-    checkRes(&clientFd, "accept error");
     printf("\n");
 
     inet_ntop(AF_INET, &clientAddr.sin_addr, clientIp, INET_ADDRSTRLEN);
@@ -50,20 +51,26 @@ int main() {
     printf("client ip = %s,port = %d\n", clientIp, ntohs(clientAddr.sin_port));
     printf("----------------------------------------------\n");
 
-    pid = fork();
-    checkRes(&pid, "fork");
-
-    if (!pid) {
-      close(socketFd);
-      processWork(clientFd);
-      close(clientFd);
-      exit(EXIT_SUCCESS);
-    }
-    if (pid) {
-    }
-    close(clientFd);
+    pthread_create(&tid, NULL, &threadFunc, clientFd);
   }
 
   close(socketFd);
   exit(EXIT_SUCCESS);
+}
+
+static void *threadFunc(void *fd) {
+  int conectFd;
+
+  conectFd = *((int *)fd);
+
+  pthread_detach(pthread_self());
+
+  int offProc = 1;
+  while (offProc) {
+    offProc = processWork(conectFd);
+  }
+
+  free(fd);
+  close(conectFd);
+  pthread_exit(NULL);
 }

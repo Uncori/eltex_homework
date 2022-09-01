@@ -4,6 +4,7 @@
 #include <arpa/inet.h>
 #include <errno.h>
 #include <netinet/in.h>
+#include <pthread.h>
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -20,6 +21,6 @@
 
 void checkRes(const int *res, const char *msg);
 void sigChild(int sign);
-void processWork(int clientFd);
+int processWork(int clientFd);
 
 #endif  // _HEADER_H

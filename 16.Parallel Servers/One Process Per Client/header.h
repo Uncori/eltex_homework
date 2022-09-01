@@ -20,6 +20,6 @@
 
 void checkRes(const int *res, const char *msg);
 void sigChild(int sign);
-void processWork(int clientFd);
+int processWork(int clientFd);
 
 #endif  // _HEADER_H

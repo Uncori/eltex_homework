@@ -6,7 +6,7 @@ PID_SERVER := $(shell pidof -s server)
 all: server client
 
 server:
-	@${CC} ${CFLAGS} server.c func.c -o server
+	@${CC} ${CFLAGS} server.c func.c -o server -lpthread
 
 kill:
 	@kill -15 ${PID_SERVER}
