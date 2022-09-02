@@ -1,9 +1,9 @@
 #include "header.h"
 
-static void *threadFunc(void *fd);
+static void *threadFunc(void *arg);
 
 int main() {
-  int socketFd = 0, res = 0, *clientFd = 0, i = 0;
+  int socketFd = 0, res = 0, clientFd = 0, i = 0;
   pthread_t tid;
 
   char clientIp[INET_ADDRSTRLEN];
@@ -32,12 +32,10 @@ int main() {
   checkRes(&res, "listen error");
   printf("|SERVER| - listening clients\n\n");
 
-  while (i < COUNT_CLIENT) {
+  while (1) {
     len = sizeof(clientAddr);
-    clientFd = malloc(sizeof(int));
-
-    *clientFd = accept(socketFd, (struct sockaddr *)&clientAddr, &len);
-    if (*clientFd < 0) {
+    clientFd = accept(socketFd, (struct sockaddr *)&clientAddr, &len);
+    if (clientFd < 0) {
       if (errno == EINTR) {
         continue;
       } else {
@@ -45,20 +43,29 @@ int main() {
         break;
       }
     }
-    info[i].fd = *clientFd;
+
+    if (i == COUNT_CLIENT) {
+      i = 0;
+    }
+
+    info[i].fd = clientFd;
     info[i].addr = clientAddr;
-    info[i].id = tid;
+    info[i].id = i;
 
     printf("\n");
 
     inet_ntop(AF_INET, &info[i].addr.sin_addr, clientIp, INET_ADDRSTRLEN);
     printf("------------|SERVER| - Accept-----------------\n");
-    printf("client id = [%d] ip = %s, port = %d\n", i + 1, clientIp,
-           ntohs(info[i].addr.sin_port));
-    printf("----------------------------------------------\n");
+    printf("client id = [%d] fd = [%d] ip = %s, port = %d\n", i + 1, info[i].fd,
+           clientIp, ntohs(info[i].addr.sin_port));
+    printf("----------------------------------------------\n\n");
     memset(clientIp, 0, INET_ADDRSTRLEN);
 
-    pthread_create(&tid, NULL, &threadFunc, clientFd);
+    res = pthread_create(&tid, NULL, &threadFunc, (void *)&info[i]);
+    if (res) {
+      perror("pthread_create");
+      exit(EXIT_FAILURE);
+    }
     ++i;
   }
 
@@ -66,37 +73,39 @@ int main() {
   exit(EXIT_SUCCESS);
 }
 
-static void *threadFunc(void *fd) {
-  int conectFd = 0;
+static void *threadFunc(void *arg) {
+  char recvBuff[BUFF_SIZE], sendBuff[BUFF_SIZE];
+  int res = 0;
 
-  conectFd = *((int *)fd);
+  sockInfo info = *((sockInfo *)arg);
 
   pthread_detach(pthread_self());
 
-  int offProc = 1;
-  while (offProc) {
-    int res = 0;
-    char buff[BUFF_SIZE];
-    memset(buff, 0, sizeof(buff));
+  memset(recvBuff, 0, sizeof(recvBuff));
+  memset(sendBuff, 0, sizeof(sendBuff));
 
-    res = recv(conectFd, buff, sizeof(buff), 0);
+  while (1) {
+    res = recv(info.fd, recvBuff, sizeof(recvBuff), 0);
     checkRes(&res, "recv error");
-    printf("|SERVER| - recv complete : %s\n", buff);
 
-    if (!strncmp(buff, "!exit\n", 7)) {
-      offProc = 0;
+    strncat(sendBuff, recvBuff, strlen(recvBuff));
+    strncat(sendBuff, " - message received", 20);
+
+    res = send(info.fd, sendBuff, sizeof(sendBuff), 0);
+    checkRes(&res, "send error");
+    printf("---------------|CLIENT[%d]|-------------------\n", info.id + 1);
+    printf("recv complete : %s\n", recvBuff);
+    printf("send complete : %s\n", sendBuff);
+
+    if (!strncmp(recvBuff, BREAKER_CLIENT, strlen(recvBuff) - 1)) {
+      printf("|CLIENT[%d]| - Good Bye!\n", info.id + 1);
+      break;
     }
 
-    strncat(buff, " - message received", 20);
-
-    res = send(conectFd, buff, sizeof(buff), 0);
-    checkRes(&res, "send error");
-    printf("|SERVER| - echo recv complete : %s\n\n", buff);
-
-    memset(buff, 0, BUFF_SIZE);
+    memset(recvBuff, 0, sizeof(recvBuff));
+    memset(sendBuff, 0, sizeof(sendBuff));
   }
 
-  free(fd);
-  close(conectFd);
+  close(info.fd);
   pthread_exit(NULL);
 }
