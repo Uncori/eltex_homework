@@ -19,9 +19,9 @@
 - [**Разделяемая память**](https://github.com/Uncori/eltex_homework/tree/main/14.Shared%20memory)
 - [**Сокеты**](https://github.com/Uncori/eltex_homework/tree/main/15.Socket)
 - [**Параллельные серверы**](https://github.com/Uncori/eltex_homework/tree/main/16.Parallel%20Servers)
-- [**Сырые сокеты RAW(UDP)**](https://github.com/Uncori/eltex_homework/tree/main/17.RAW(UDP)%20Socket)
-- [**Сырые сокеты RAW(UDP, TCP)**](https://github.com/Uncori/eltex_homework/tree/main/18.RAW(UDP%20TCP)%20Socket)
-
+- [**Сырые сокеты RAW(UDP)**](https://github.com/Uncori/eltex_homework/tree/main/17.RAW(udphdr)%20Socket)
+- [**Сырые сокеты RAW(UDP, TCP)**](https://github.com/Uncori/eltex_homework/tree/main/18.RAW(udphdr%2C%20iphdr)%20Socket)
+- [**Сырые сокеты RAW(UDP, TCP, ETH, MAC)**](https://github.com/Uncori/eltex_homework/tree/main/19.RAW(udphdr%2C%20iphdr%2C%20MAC)%20Socket)
 
 ## Работы выполнены на системе:
 - Operating System: Linux Mint 20.3
