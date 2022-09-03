@@ -18,10 +18,11 @@
 #define BUFF_SIZE 1024
 #define ERROR_RETURN -1
 #define BREAKER_CLIENT "!exit"
-#define COUNT_PROCESS 3
+#define COUNT_PROCESS 10
 
 void checkRes(const int *res, const char *msg);
 pid_t childMake(int id, int fd, int (*func)(int id, int fd));
 int childProcess(int id, int fd);
+void sigChild(int sign);
 
 #endif  // _HEADER_H

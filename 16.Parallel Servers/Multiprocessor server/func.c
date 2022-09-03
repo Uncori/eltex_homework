@@ -19,21 +19,30 @@ pid_t childMake(int id, int fd, int (*func)(int id, int fd)) {
   }
 }
 
+void sigChild(int sign) {
+  pid_t pid;
+  int status;
+  while ((pid = waitpid(-1, &status, WNOHANG)) > 0) {
+    printf("|SERVER| - child %d stopped or terminated with sing %d status %d\n",
+           pid, sign, status);
+  }
+}
+
 int childProcess(int id, int fd) {
   char clientIp[INET_ADDRSTRLEN];
   struct sockaddr_in clientAddr;
-  socklen_t len = 0;
+  socklen_t clientLen = 0;
   int res = 0, clientFd = 0;
   char recvBuff[BUFF_SIZE], sendBuff[BUFF_SIZE];
 
-  len = sizeof(clientAddr);
+  clientLen = sizeof(clientAddr);
 
   memset(&clientAddr, 0, sizeof(struct sockaddr_in));
   memset(clientIp, 0, sizeof(clientIp));
   memset(recvBuff, 0, sizeof(recvBuff));
   memset(sendBuff, 0, sizeof(sendBuff));
 
-  clientFd = accept(fd, (struct sockaddr *)&clientAddr, &len);
+  clientFd = accept(fd, (struct sockaddr *)&clientAddr, &clientLen);
   checkRes(&clientFd, "accept error");
 
   inet_ntop(AF_INET, &clientAddr.sin_addr, clientIp, INET_ADDRSTRLEN);

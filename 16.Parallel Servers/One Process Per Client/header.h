@@ -17,6 +17,7 @@
 #define SIN_PORT 5005
 #define BUFF_SIZE 1024
 #define ERROR_RETURN -1
+#define BREAKER_CLIENT "!exit"
 
 void checkRes(const int *res, const char *msg);
 void sigChild(int sign);

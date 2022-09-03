@@ -1,55 +1,57 @@
 #include "header.h"
 
 int main() {
-  int sfd = 0, res = 0, breaker = 1;
-  char writeBuff[BUFF_SIZE];
-  char readBuff[BUFF_SIZE];
+  int servFd = 0, res = 0;
+  char sendBuff[BUFF_SIZE];
+  char recvBuff[BUFF_SIZE];
 
   struct sockaddr_in servAddr;
 
-  sfd = socket(AF_INET, SOCK_STREAM, 0);
-  checkRes(&sfd, "socket error");
-  printf("|CLIENT| - socket ready\n");
+  servFd = socket(AF_INET, SOCK_STREAM, 0);
+  checkRes(&servFd, "socket error");
 
   memset(&servAddr, 0, sizeof(struct sockaddr_in));
-  memset(writeBuff, 0, BUFF_SIZE);
-  memset(readBuff, 0, BUFF_SIZE);
+  memset(sendBuff, 0, BUFF_SIZE);
+  memset(recvBuff, 0, BUFF_SIZE);
 
   servAddr.sin_family = AF_INET;
+  servAddr.sin_addr.s_addr = htonl(INADDR_ANY);
   servAddr.sin_port = htons(SIN_PORT);
 
-  res = connect(sfd, (const struct sockaddr *)&servAddr,
-                sizeof(struct sockaddr_un));
+  res = connect(servFd, (const struct sockaddr *)&servAddr,
+                sizeof(struct sockaddr_in));
   checkRes(&res, "connect error");
-  printf("|CLIENT| - connect complete\n");
 
-  while (breaker) {
-    printf("|CLIENT| - write massage: ");
-    fgets(writeBuff, BUFF_SIZE, stdin);
+  printf("--------|SERVER|-------\n");
+  printf("|--> socket succeeded |\n");
+  printf("|--> connect succeeded|\n");
+  printf("|  \"!exit\"    to exit |\n");
 
-    if (!strncmp(writeBuff, "!exit", strlen(writeBuff) - 1)) {
-      res = write(sfd, writeBuff, strlen(writeBuff) - 1);
-      checkRes(&res, "write error");
-      printf("Good Bye!\n");
+  while (1) {
+    printf("|enter your message: ");
+    fgets(sendBuff, BUFF_SIZE, stdin);
 
-      breaker = 0;
+    res = send(servFd, sendBuff, strlen(sendBuff) - 1, 0);
+    checkRes(&res, "send error");
+
+    res = recv(servFd, recvBuff, sizeof(recvBuff), 0);
+    checkRes(&res, "recv error");
+
+    printf("|send succeeded       |\n");
+    printf("|recv succeeded       |\n");
+    printf("|message send: %s", sendBuff);
+    printf("|message received: %s\n", recvBuff);
+    printf("-----------------------\n");
+
+    if (!strncmp(sendBuff, BREAKER_CLIENT, strlen(sendBuff) - 1)) {
+      printf("|------Good Bye!------|\n");
+      break;
     }
 
-    res = write(sfd, writeBuff, strlen(writeBuff) - 1);
-    checkRes(&res, "write error");
-    printf("|CLIENT| - write complete\n");
-
-    res = read(sfd, readBuff, BUFF_SIZE);
-    checkRes(&res, "read error");
-    printf("|CLIENT| - read complete\n");
-
-    printf("|CLIENT| - msg sent: %s\n", writeBuff);
-    printf("|CLIENT| - echo msg received: %s\n", readBuff);
-
-    memset(writeBuff, 0, BUFF_SIZE);
-    memset(readBuff, 0, BUFF_SIZE);
+    memset(sendBuff, 0, BUFF_SIZE);
+    memset(recvBuff, 0, BUFF_SIZE);
   }
 
-  close(sfd);
+  close(servFd);
   exit(EXIT_FAILURE);
 }
