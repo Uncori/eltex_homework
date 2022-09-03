@@ -93,6 +93,7 @@ static void *threadFunc(void *arg) {
 
     res = send(info.fd, sendBuff, sizeof(sendBuff), 0);
     checkRes(&res, "send error");
+
     printf("---------------|CLIENT[%d]|-------------------\n", info.id + 1);
     printf("recv complete : %s\n", recvBuff);
     printf("send complete : %s\n", sendBuff);
