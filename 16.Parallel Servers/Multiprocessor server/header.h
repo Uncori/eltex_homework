@@ -21,7 +21,7 @@
 #define COUNT_PROCESS 3
 
 void checkRes(const int *res, const char *msg);
-void sigChild(int sign);
-int processWork(int clientFd);
+pid_t childMake(int id, int fd, int (*func)(int id, int fd));
+int childProcess(int id, int fd);
 
 #endif  // _HEADER_H

@@ -7,34 +7,64 @@ void checkRes(const int *res, const char *msg) {
   }
 }
 
-void sigChild(int sign) {
+pid_t childMake(int id, int fd, int (*func)(int id, int fd)) {
   pid_t pid;
-  int status;
-  while ((pid = waitpid(-1, &status, WNOHANG)) > 0) {
-    printf("|SERVER| - child %d stopped or terminated with sing %d\n", pid,
-           sign);
+  pid = fork();
+  if (pid == -1) {
+    return -1;
+  } else if (!pid) {
+    exit(func(id, fd));
+  } else {
+    return pid;
   }
 }
 
-int processWork(int clientFd) {
-  int res = 0, offProc = 1;
-  char buff[BUFF_SIZE];
-  memset(buff, 0, sizeof(buff));
-  printf("|SERVER| - child process ready %d parent %d\n", getpid(), getppid());
+int childProcess(int id, int fd) {
+  char clientIp[INET_ADDRSTRLEN];
+  struct sockaddr_in clientAddr;
+  socklen_t len = 0;
+  int res = 0, clientFd = 0;
+  char recvBuff[BUFF_SIZE], sendBuff[BUFF_SIZE];
 
-  res = recv(clientFd, buff, sizeof(buff), 0);
-  checkRes(&res, "recv error");
-  printf("|SERVER| - recv complete : %s\n", buff);
+  len = sizeof(clientAddr);
 
-  if (!strncmp(buff, "!exit\n", 7)) {
-    offProc = 0;
+  memset(&clientAddr, 0, sizeof(struct sockaddr_in));
+  memset(clientIp, 0, sizeof(clientIp));
+  memset(recvBuff, 0, sizeof(recvBuff));
+  memset(sendBuff, 0, sizeof(sendBuff));
+
+  clientFd = accept(fd, (struct sockaddr *)&clientAddr, &len);
+  checkRes(&clientFd, "accept error");
+
+  inet_ntop(AF_INET, &clientAddr.sin_addr, clientIp, INET_ADDRSTRLEN);
+  printf("------------|SERVER| - Accept-----------------\n");
+  printf("Process[%d][PID: %d] number has started\n", id, (int)getpid());
+  printf("client ip = %s, port = %d\n", clientIp, ntohs(clientAddr.sin_port));
+  printf("----------------------------------------------\n");
+
+  while (1) {
+    res = recv(clientFd, recvBuff, sizeof(recvBuff), 0);
+    checkRes(&res, "recv error");
+
+    strncat(sendBuff, recvBuff, strlen(recvBuff));
+    strncat(sendBuff, " - message received", 20);
+
+    res = send(clientFd, sendBuff, sizeof(sendBuff), 0);
+    checkRes(&res, "send error");
+
+    printf("---------------|CLIENT[%d]|-------------------\n", id);
+    printf("recv complete : %s\n", recvBuff);
+    printf("send complete : %s\n", sendBuff);
+
+    if (!strncmp(recvBuff, BREAKER_CLIENT, strlen(recvBuff) - 1)) {
+      printf("|CLIENT[%d]| - Good Bye!\n", id);
+      break;
+    }
+
+    memset(recvBuff, 0, sizeof(recvBuff));
+    memset(sendBuff, 0, sizeof(sendBuff));
   }
 
-  strncat(buff, " - message received", 20);
-
-  res = send(clientFd, buff, sizeof(buff), 0);
-  checkRes(&res, "send error");
-  printf("|SERVER| - echo recv complete : %s\n\n", buff);
-
-  return offProc;
+  close(clientFd);
+  return EXIT_SUCCESS;
 }
