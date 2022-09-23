@@ -1,0 +1,8 @@
+KEYS:
+UP - rotate 90
+Z - rotate -90
+LEFT - move left
+RIGHT - move right
+DOWN - move down
+SPACE - blink down
+ESC - exit to lobby
