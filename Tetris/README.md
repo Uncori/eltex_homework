@@ -11,3 +11,12 @@
 Запуск:
 -  make run  # запуск приложения.
 
+----------GitHub-----------
+Александр Чедуров:
+https://github.com/TheAmazingFail-Man
+Егор Шишкин:
+https://github.com/Cardking
+Андрей Долгих:
+https://github.com/homyak1701
+
+
