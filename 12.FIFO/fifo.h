@@ -15,11 +15,11 @@
 
 typedef struct {
     pid_t pid;
-    int lenPosled;
+    int lenSend;
     char send[PIPE_BUF];
 } request_t;
 
 typedef struct {
-    int nachaloPosled;
+    int lenReceive;
     char receive[PIPE_BUF];
 } response_t;

@@ -6,9 +6,11 @@ int main(void)
     char clientFifo[CLIENT_FIFO_NAME_LEN];
     request_t req;
     response_t resp;
+    req.lenSend = 0;
+    resp.lenReceive = 0;
     memset(req.send, '\0', PIPE_BUF);
     memset(resp.receive, '\0', PIPE_BUF);
-    int seqNum = 0, res = 0;
+    int res = 0;
     umask(0);
     printf("Welcome server!\n");
     res = mkfifo(SERVER_FIFO, S_IRUSR | S_IWUSR | S_IWGRP);
@@ -43,7 +45,9 @@ int main(void)
             fprintf(stderr, "Error reading request; discarding\n");
             continue;
         }
+        printf("req.pid = %d\n", req.pid);
         printf("req.send = %s\n", req.send);
+        printf("req.lenSend = %d\n", req.lenSend);
         printf("read serverFd comlete!\n");
 
         snprintf(clientFifo, CLIENT_FIFO_NAME_LEN, CLIENT_FIFO_TEMPLATE,
@@ -57,10 +61,10 @@ int main(void)
         }
         printf("open clientFd comlete!\n");
 
-        resp.nachaloPosled = seqNum;
         printf("Wait write massage.....\n");
         strncat(resp.receive, req.send, strlen(req.send) - 1);
         strncat(resp.receive, " - delivered!", 14);
+        resp.lenReceive = strlen(resp.receive);
         if (write(clientFd, &resp, sizeof(response_t)) != sizeof(response_t)) {
             fprintf(stderr, "Error reading request; discarding\n");
         }
@@ -70,7 +74,6 @@ int main(void)
             perror("close clientFd");
         }
         printf("close clientFd!\n\n");
-        seqNum += req.lenPosled;
         memset(req.send, '\0', PIPE_BUF);
         memset(resp.receive, '\0', PIPE_BUF);
     }

@@ -4,11 +4,13 @@ static char clientFifo[CLIENT_FIFO_NAME_LEN];
 
 static void removeFifo(void) { unlink(clientFifo); }
 
-int main(int argc, char *argv[])
+int main(void)
 {
     int serverFd = 0, clientFd = 0, res = 0;
     request_t req;
     response_t resp;
+    req.lenSend = 0;
+    resp.lenReceive = 0;
 
     memset(req.send, '\0', PIPE_BUF);
     memset(resp.receive, '\0', PIPE_BUF);
@@ -32,7 +34,7 @@ int main(int argc, char *argv[])
     printf("Write your massage:\n");
     fgets(req.send, PIPE_BUF, stdin);
     req.pid = getpid();
-    req.lenPosled = argc > 1 ? atoi(argv[1]) : 1;
+    req.lenSend = strlen(req.send);
 
     serverFd = open(SERVER_FIFO, O_WRONLY);
     if (serverFd == -1) {
@@ -60,7 +62,8 @@ int main(int argc, char *argv[])
     }
     printf("read clientFd comlete!\n");
     printf("resp.receive = %s\n", resp.receive);
-    printf("resp.nachaloPosled = %d\n", resp.nachaloPosled);
+    printf("resp.lenReceive = %d\n", resp.lenReceive);
+
     unlink(clientFifo);
 
     exit(EXIT_SUCCESS);
