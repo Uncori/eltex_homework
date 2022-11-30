@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -std=c11 -D_GNU_SOURCE
+CFLAGS = -Wall -Wextra -Werror -std=c11 -D_GNU_SOURCE
 
 all: build 
 
@@ -11,6 +11,6 @@ run_server:
 	@./server
 
 clean:
-	@rm -rf client server
+	@rm -rf client server /tmp/server_test
 
 rebuild: clean client server
